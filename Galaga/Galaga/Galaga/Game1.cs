@@ -119,6 +119,8 @@ namespace Galaga
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
+            for (int i = 0; i < playerShots.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], new Rectangle(0, 0, 10, 10), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }

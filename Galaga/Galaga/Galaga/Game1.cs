@@ -20,8 +20,13 @@ namespace Galaga
         SpriteBatch spriteBatch;
 
         Texture2D galagaSpriteSheet;
+        KeyboardState old;
 
-        //sprite location on screen
+        //shooting things
+        List<Rectangle> playerShots;
+        int fireTime;
+
+
         Rectangle ship;
         Rectangle spaceFly;
         Rectangle playBullet; //player's bullet
@@ -47,6 +52,12 @@ namespace Galaga
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            ship = new Rectangle(10, 10, 35, 35);
+            old = Keyboard.GetState();
+
+            playerShots = new List<Rectangle>();
+            fireTime = 0;
+
             //on screen
             ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 50, 35, 35);
             spaceFly = new Rectangle(10, 10, 35, 35);
@@ -93,10 +104,20 @@ namespace Galaga
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            KeyboardState kb = Keyboard.GetState();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kb.IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // TODO: Add your update logic here
+
+            if (kb.IsKeyDown(Keys.Space))
+            {
+                if (fireTime % 10 == 0)
+                {
+                    playerShots.Add(new Rectangle(ship.X + 10, ship.Y, 15, 20));
+                }
+                fireTime++;
+            }
 
             base.Update(gameTime);
         }

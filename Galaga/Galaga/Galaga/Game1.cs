@@ -24,8 +24,9 @@ namespace Galaga
 
         //shooting things
         List<Rectangle> playerShots;
+        List<Rectangle> enemyShots;
         int fireTime;
-
+        int efireTime;
 
         Rectangle ship;
         Rectangle spaceFly;
@@ -57,6 +58,8 @@ namespace Galaga
 
             playerShots = new List<Rectangle>();
             fireTime = 0;
+            enemyShots = new List<Rectangle>();
+            efireTime = 0;
 
             //on screen
             ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 50, 35, 35);
@@ -110,13 +113,20 @@ namespace Galaga
 
             // TODO: Add your update logic here
 
-            shipMovement(kb);
-
+            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
+            {
+                ship.X++;
+            }
+            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
+            {
+                ship.X--; ;
+            }
+            //shoots with space bar
             if (kb.IsKeyDown(Keys.Space))
             {
                 if (fireTime % 10 == 0)
                 {
-                    playerShots.Add(new Rectangle(ship.X + 10, ship.Y, 15, 20));
+                    playerShots.Add(new Rectangle(ship.X + 16, ship.Y + 5, 15, 20));
                 }
                 fireTime++;
             }
@@ -136,12 +146,13 @@ namespace Galaga
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            for (int i = 0; i < playerShots.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, spaceFly, spaceFly1, Color.White);
-            for (int i = 0; i < playerShots.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.White);
+            
             spriteBatch.End();
             base.Draw(gameTime);
 

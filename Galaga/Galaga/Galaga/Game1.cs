@@ -22,6 +22,11 @@ namespace Galaga
         Texture2D galagaSpriteSheet;
         KeyboardState old;
 
+        //shooting things
+        List<Rectangle> playerShots;
+        int fireTime;
+
+
         Rectangle ship;
         public Game1()
         {
@@ -40,6 +45,10 @@ namespace Galaga
             // TODO: Add your initialization logic here
             ship = new Rectangle(10, 10, 35, 35);
             old = Keyboard.GetState();
+
+            playerShots = new List<Rectangle>();
+            fireTime = 0;
+
             base.Initialize();
         }
 
@@ -85,6 +94,15 @@ namespace Galaga
             if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
             {
                 ship.X--;
+            }
+
+            if (kb.IsKeyDown(Keys.Space))
+            {
+                if (fireTime % 10 == 0)
+                {
+                    playerShots.Add(new Rectangle(ship.X + 10, ship.Y, 15, 20));
+                }
+                fireTime++;
             }
 
             base.Update(gameTime);

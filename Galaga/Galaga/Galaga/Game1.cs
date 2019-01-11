@@ -136,6 +136,8 @@ namespace Galaga
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, spaceFly, spaceFly1, Color.White);
+            for (int i = 0; i < playerShots.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], new Rectangle(0, 0, 10, 10), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }

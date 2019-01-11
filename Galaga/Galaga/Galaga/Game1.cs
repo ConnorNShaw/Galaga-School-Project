@@ -112,14 +112,6 @@ namespace Galaga
                 this.Exit();
 
             // TODO: Add your update logic here
-            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
-            {
-                ship.X++;
-            }
-            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
-            {
-                ship.X--;
-            }
 
             if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
             {
@@ -145,6 +137,7 @@ namespace Galaga
                 eshoot();
             for (int i = 0; i < enemyShots.Count; i++)
                 enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 3, enemyShots[i].Width, enemyShots[i].Height);
+            handleCollissions();
 
 
             base.Update(gameTime);
@@ -176,10 +169,33 @@ namespace Galaga
 
         public void shoot()
         {
-            for (int i = 0; i < playerShots.Count; i++)
+            for (int i = playerShots.Count - 1; i > 0; i--)
             {
                 playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 10, playerShots[i].Width, playerShots[i].Height);
             }
+        }
+
+        public void shipMovement(KeyboardState kb)
+        {
+
+            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
+            {
+                ship.X++;
+            }
+            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
+            {
+                ship.X--;
+            }
+
+            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
+            {
+                ship.X++;
+            }
+            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
+            {
+                ship.X--; ;
+            }
+
         }
         public void eshoot()
         {
@@ -187,5 +203,19 @@ namespace Galaga
             
         }
 
+        public void handleCollissions()
+        {
+
+            for (int i = playerShots.Count - 1; i > 0; i--)
+            {
+
+                if(playerShots[i].Intersects(spaceFly))
+                {
+
+                    playerShots.Remove(playerShots[i]);
+
+                }
+            }
+        }
     }
 }

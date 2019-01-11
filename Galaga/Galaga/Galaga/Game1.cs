@@ -131,7 +131,7 @@ namespace Galaga
             {
                 if (fireTime % 10 == 0)
                 {
-                    playerShots.Add(new Rectangle(ship.X + 10, ship.Y, 15, 20));
+                    playerShots.Add(new Rectangle(ship.X + 16, ship.Y + 5, 15, 20));
                 }
                 fireTime++;
             }
@@ -146,16 +146,17 @@ namespace Galaga
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            for (int i = 0; i < playerShots.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, spaceFly, spaceFly1, Color.White);
-            for (int i = 0; i < playerShots.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.White);
+            
             spriteBatch.End();
             base.Draw(gameTime);
 

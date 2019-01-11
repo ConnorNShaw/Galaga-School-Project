@@ -139,6 +139,13 @@ namespace Galaga
                 fireTime++;
             }
             shoot();
+            //enemyshoot
+            efireTime++;
+            if (efireTime % 60 == 0)
+                eshoot();
+            for (int i = 0; i < enemyShots.Count; i++)
+                enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 3, enemyShots[i].Width, enemyShots[i].Height);
+
 
             base.Update(gameTime);
         }
@@ -155,6 +162,8 @@ namespace Galaga
             spriteBatch.Begin();
             for (int i = 0; i < playerShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.White);
+            for (int i = 0; i < enemyShots.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
@@ -171,6 +180,11 @@ namespace Galaga
             {
                 playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 10, playerShots[i].Width, playerShots[i].Height);
             }
+        }
+        public void eshoot()
+        {
+            enemyShots.Add(new Rectangle(spaceFly.X + 16, spaceFly.Y, 15, 20));
+            
         }
 
     }

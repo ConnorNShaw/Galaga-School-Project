@@ -110,6 +110,15 @@ namespace Galaga
 
             // TODO: Add your update logic here
 
+            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
+            {
+                ship.X++;
+            }
+            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
+            {
+                ship.X--; ;
+            }
+
             if (kb.IsKeyDown(Keys.Space))
             {
                 if (fireTime % 10 == 0)

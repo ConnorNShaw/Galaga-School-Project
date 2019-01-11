@@ -109,7 +109,7 @@ namespace Galaga
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            //shooting for the player
             if (kb.IsKeyDown(Keys.Space))
             {
                 if (fireTime % 10 == 0)
@@ -118,6 +118,7 @@ namespace Galaga
                 }
                 fireTime++;
             }
+            shoot();
 
             base.Update(gameTime);
         }
@@ -137,9 +138,19 @@ namespace Galaga
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, spaceFly, spaceFly1, Color.White);
             for (int i = 0; i < playerShots.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], new Rectangle(0, 0, 10, 10), Color.White);
+                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
+
         }
+
+        public void shoot()
+        {
+            for (int i = 0; i < playerShots.Count; i++)
+            {
+                playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 10, playerShots[i].Width, playerShots[i].Height);
+            }
+        }
+
     }
 }

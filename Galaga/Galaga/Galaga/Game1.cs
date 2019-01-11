@@ -18,7 +18,7 @@ namespace Galaga
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        //anime is trash
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);

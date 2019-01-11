@@ -28,6 +28,15 @@ namespace Galaga
 
 
         Rectangle ship;
+        Rectangle spaceFly;
+        Rectangle playBullet; //player's bullet
+        Rectangle enBullet; //enemy bullet
+
+        //sprite location on picture
+        Rectangle spaceFly1;
+        Rectangle pBull1;
+        Rectangle eBull1;
+        //363 193
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -49,6 +58,19 @@ namespace Galaga
             playerShots = new List<Rectangle>();
             fireTime = 0;
 
+            //on screen
+            ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 50, 35, 35);
+            spaceFly = new Rectangle(10, 10, 35, 35);
+
+            playBullet = new Rectangle();
+            enBullet = new Rectangle();
+
+
+            //on sprite sheet
+            spaceFly1 = new Rectangle(158, 174, 20, 20);
+
+            pBull1 = new Rectangle(364, 193, 20, 20);
+            eBull1 = new Rectangle(372, 49, 20, 20);
             base.Initialize();
         }
 
@@ -119,6 +141,9 @@ namespace Galaga
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
+            spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
+            spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
+            spriteBatch.Draw(galagaSpriteSheet, spaceFly, spaceFly1, Color.White);
             for (int i = 0; i < playerShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, playerShots[i], new Rectangle(0, 0, 10, 10), Color.White);
             spriteBatch.End();

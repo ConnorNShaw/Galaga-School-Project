@@ -24,8 +24,9 @@ namespace Galaga
 
         //shooting things
         List<Rectangle> playerShots;
+        List<Rectangle> enemyShots;
         int fireTime;
-
+        int efireTime;
 
         Rectangle ship;
         Rectangle spaceFly;
@@ -57,6 +58,8 @@ namespace Galaga
 
             playerShots = new List<Rectangle>();
             fireTime = 0;
+            enemyShots = new List<Rectangle>();
+            efireTime = 0;
 
             //on screen
             ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 50, 35, 35);
@@ -126,7 +129,7 @@ namespace Galaga
             {
                 ship.X--; ;
             }
-
+            //shoots with space bar
             if (kb.IsKeyDown(Keys.Space))
             {
                 if (fireTime % 10 == 0)

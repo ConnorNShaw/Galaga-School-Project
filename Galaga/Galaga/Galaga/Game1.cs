@@ -18,6 +18,7 @@ namespace Galaga
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D galagaSpriteSheet;
 
         public Game1()
         {
@@ -46,6 +47,7 @@ namespace Galaga
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            galagaSpriteSheet = this.Content.Load<Texture2D>("Galaga Textures");
 
             // TODO: use this.Content to load your game content here
         }

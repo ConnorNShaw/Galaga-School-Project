@@ -18,8 +18,10 @@ namespace Galaga
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
         Texture2D galagaSpriteSheet;
 
+        Rectangle ship;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -35,7 +37,7 @@ namespace Galaga
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            ship = new Rectangle(10, 10, 35, 35);
             base.Initialize();
         }
 
@@ -86,7 +88,9 @@ namespace Galaga
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

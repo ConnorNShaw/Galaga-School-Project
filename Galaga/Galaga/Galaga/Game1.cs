@@ -92,7 +92,7 @@ namespace Galaga
             //on sprite sheet
             spaceFly1 = new Rectangle(158, 174, 20, 20);
 
-            pBull1 = new Rectangle(364, 193, 20, 20);
+            pBull1 = new Rectangle(364, 193, 10, 20);
             eBull1 = new Rectangle(372, 49, 20, 20);
 
             explosion1 = new Rectangle(208, 187, 20, 20);
@@ -159,7 +159,7 @@ namespace Galaga
             {
                 if (fireTime % 10 == 0)
                 {
-                    playerShots.Add(new Rectangle(ship.X + 16, ship.Y + 5, 15, 20));
+                    playerShots.Add(new Rectangle(ship.X + 12, ship.Y + 5, 20 , 30));
                 }
                 fireTime++;
             }
@@ -197,7 +197,7 @@ namespace Galaga
             spriteBatch.Begin();
 
             for (int i = 0; i < playerShots.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.White);
+                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.SkyBlue);
 
             for (int i = 0; i < enemyShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);

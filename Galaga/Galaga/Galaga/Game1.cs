@@ -284,22 +284,22 @@ namespace Galaga
             }
 
         }
-        public void enemyMovement()
-        {
-            //for (int i = 0; i < enemies.Length; i++)
-            //{
-            //    enemies[i].X += move;
-            //    if (enemies[i].X + enemies[i].Width > GraphicsDevice.Viewport.Width || enemies[i].X < 10)
-            //    {
-            //        move *= -1;
-            //    }
-            //}
-            spaceFly.X += move;
-            if (spaceFly.X + spaceFly.Width > GraphicsDevice.Viewport.Width || spaceFly.X < 0)
-            {
-                move *= -1;
-            }
-        }
+        //public void enemyMovement()
+        //{
+        //    //for (int i = 0; i < enemies.Length; i++)
+        //    //{
+        //    //    enemies[i].X += move;
+        //    //    if (enemies[i].X + enemies[i].Width > GraphicsDevice.Viewport.Width || enemies[i].X < 10)
+        //    //    {
+        //    //        move *= -1;
+        //    //    }
+        //    //}
+        //    spaceFly.X += move;
+        //    if (spaceFly.X + spaceFly.Width > GraphicsDevice.Viewport.Width || spaceFly.X < 0)
+        //    {
+        //        move *= -1;
+        //    }
+        //}
 
         public void eshoot()
         {

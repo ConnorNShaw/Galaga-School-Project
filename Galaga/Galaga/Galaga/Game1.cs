@@ -29,16 +29,31 @@ namespace Galaga
         int fireTime;
         int efireTime;
 
+        //sprite location on the screen
         Rectangle ship;
         Rectangle spaceFly;
         Rectangle playBullet; //player's bullet
         Rectangle enBullet; //enemy bullet
+        Rectangle explosion;
 
         //sprite location on picture
         Rectangle spaceFly1;
         Rectangle pBull1;
         Rectangle eBull1;
-        //363 193
+        Rectangle explosion1;
+        Rectangle explosion2;
+        Rectangle explosion3;
+        Rectangle explosion4;
+        Rectangle explosion5;
+
+        //list of enemies
+        List<Rectangle> enemySprites;
+        List<Rectangle> enemyLocations;
+        int move;
+
+        //lives and score
+        int life;
+        int score;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -54,7 +69,6 @@ namespace Galaga
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            ship = new Rectangle(10, 10, 35, 35);
             old = Keyboard.GetState();
 
             playerShots = new List<Rectangle>();
@@ -68,6 +82,7 @@ namespace Galaga
 
             playBullet = new Rectangle();
             enBullet = new Rectangle();
+            explosion = new Rectangle();
 
 
             //on sprite sheet
@@ -75,6 +90,23 @@ namespace Galaga
 
             pBull1 = new Rectangle(364, 193, 20, 20);
             eBull1 = new Rectangle(372, 49, 20, 20);
+
+            explosion1 = new Rectangle(208, 187, 20, 20);
+            explosion2 = new Rectangle(229, 187, 20, 20);
+            explosion3 = new Rectangle(251, 187, 20, 20);
+            explosion4 = new Rectangle(278, 187, 20, 20);
+            explosion5 = new Rectangle(314, 187, 20, 20);
+
+
+            //enemy list
+            enemySprites.Add(spaceFly);
+            enemyLocations.Add(spaceFly);
+            move = 3;
+
+
+            //life and score
+            life = 3;
+            score = 0;
             base.Initialize();
         }
 
@@ -105,6 +137,23 @@ namespace Galaga
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /// 
+        public void enemyMovement()
+        {
+            //for (int i = 0; i < enemies.Length; i++)
+            //{
+            //    enemies[i].X += move;
+            //    if (enemies[i].X + enemies[i].Width > GraphicsDevice.Viewport.Width || enemies[i].X < 10)
+            //    {
+            //        move *= -1;
+            //    }
+            //}
+            spaceFly.X += move;
+            if (spaceFly.X + spaceFly.Width > GraphicsDevice.Viewport.Width || spaceFly.X < 0)
+            {
+                move *= -1;
+            }
+        }
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -125,14 +174,20 @@ namespace Galaga
             shoot();
             //enemyshoot
             efireTime++;
-            if (efireTime % 60 == 0)
+            if (efireTime % 240 == 0)
                 eshoot();
             for (int i = 0; i < enemyShots.Count; i++)
                 enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 3, enemyShots[i].Width, enemyShots[i].Height);
             handleCollissions();
             shipMovement(kb);
 
+            enemyMovement();
 
+            //extra life based on scoring
+            if (score == 30000 || score == 80000)
+            {
+                life++;
+            }
             base.Update(gameTime);
         }
 
@@ -154,7 +209,6 @@ namespace Galaga
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, spaceFly, spaceFly1, Color.White);
-            
             spriteBatch.End();
             base.Draw(gameTime);
 
@@ -187,10 +241,12 @@ namespace Galaga
             
         }
 
+
+
         public void handleCollissions()
         {
 
-            for (int i = playerShots.Count - 1; i > 0; i--)
+            for (int i = playerShots.Count - 1; i >= 0; i--)
             {
                 if(playerShots[i].Intersects(spaceFly))
                 {
@@ -198,7 +254,7 @@ namespace Galaga
                 }
             }
 
-            for(int i = enemyShots.Count - 1; i > 0; i--)
+            for(int i = enemyShots.Count - 1; i >= 0; i--)
             {
                 if (enemyShots[i].Intersects(ship))
                 {

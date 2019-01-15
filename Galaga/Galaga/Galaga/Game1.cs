@@ -85,6 +85,7 @@ namespace Galaga
 
 
             //on sprite sheet
+            
             spaceFly1 = new Rectangle(158, 174, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 20, 20);
@@ -157,12 +158,8 @@ namespace Galaga
                 fireTime++;
             }
             shoot();
-            //enemyshoot
-            efireTime++;
-            if (efireTime % 240 == 0)
-                eshoot();
-            for (int i = 0; i < enemyShots.Count; i++)
-                enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 3, enemyShots[i].Width, enemyShots[i].Height);
+            
+            enemyShoot();
             handleCollissions();
             shipMovement(kb);
             
@@ -229,7 +226,14 @@ namespace Galaga
             
         }
 
-
+        public void enemyShoot()
+        {
+            efireTime++;
+            if (efireTime % 240 == 0)
+                eshoot();
+            for (int i = 0; i < enemyShots.Count; i++)
+                enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 3, enemyShots[i].Width, enemyShots[i].Height);
+        }
 
         public void handleCollissions()
         {
@@ -239,6 +243,7 @@ namespace Galaga
                 if(playerShots[i].Intersects(spaceFly))
                 {
                     playerShots.Remove(playerShots[i]);
+                    score += 100;
                 }
             }
 

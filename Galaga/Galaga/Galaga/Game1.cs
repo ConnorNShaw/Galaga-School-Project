@@ -85,7 +85,6 @@ namespace Galaga
 
 
             //on sprite sheet
-            
             spaceFly1 = new Rectangle(158, 174, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 20, 20);
@@ -240,10 +239,15 @@ namespace Galaga
 
             for (int i = playerShots.Count - 1; i >= 0; i--)
             {
-                if(playerShots[i].Intersects(spaceFly))
+                for (int k = enemyLocations.Count - 1; k >= 0; k--)
                 {
-                    playerShots.Remove(playerShots[i]);
-                    score += 100;
+                    if (playerShots[i].Intersects(enemyLocations[k]))
+                    {
+                        playerShots.Remove(playerShots[i]);
+                        enemySprites.Remove(enemySprites[k]);
+                        enemyLocations.Remove(enemyLocations[k]);
+                        score += 100;
+                    }
                 }
             }
 

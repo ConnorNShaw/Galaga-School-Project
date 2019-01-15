@@ -25,6 +25,7 @@ namespace Galaga
         //shooting things
         List<Rectangle> playerShots;
         List<Rectangle> enemyShots;
+
         int fireTime;
         int efireTime;
 
@@ -161,7 +162,7 @@ namespace Galaga
 
         public void shoot()
         {
-            for (int i = playerShots.Count - 1; i > 0; i--)
+            for (int i = playerShots.Count - 1; i >= 0; i--)
             {
                 playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 10, playerShots[i].Width, playerShots[i].Height);
             }
@@ -169,8 +170,6 @@ namespace Galaga
 
         public void shipMovement(KeyboardState kb)
         {
-
-
 
             if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
             {
@@ -204,8 +203,10 @@ namespace Galaga
                 if (enemyShots[i].Intersects(ship))
                 {
                     enemyShots.Remove(enemyShots[i]);
+                    ship.X = 500;
                 }
             }
         }
+
     }
 }

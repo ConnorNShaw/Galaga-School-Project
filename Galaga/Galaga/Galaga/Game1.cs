@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -22,6 +23,8 @@ namespace Galaga
         Texture2D galagaSpriteSheet;
         KeyboardState old;
 
+        int timer;
+
         //shooting things
         List<Rectangle> playerShots;
         List<Rectangle> enemyShots;
@@ -40,11 +43,16 @@ namespace Galaga
         Rectangle spaceFly1;
         Rectangle pBull1;
         Rectangle eBull1;
-        Rectangle explosion1;
-        Rectangle explosion2;
-        Rectangle explosion3;
-        Rectangle explosion4;
-        Rectangle explosion5;
+        List<Rectangle> enemyExplosion;
+        Rectangle enemyExplosion1, enemyExplosion2, enemyExplosion3, enemyExplosion4, enemyExplosion5;
+        List<Rectangle> playerExplosion;
+        Rectangle playerExplosion1, playerExplosion2, playerExplosion3, playerExplosion4;
+
+
+        //Booleans determine which explosion to draw
+        bool explodePlayer;
+        bool explodeEnemy;
+        int explosionTracker;
 
         //list of enemies
         List<Rectangle> enemySprites;
@@ -71,6 +79,8 @@ namespace Galaga
             // TODO: Add your initialization logic here
             old = Keyboard.GetState();
 
+            timer = 0;
+
             playerShots = new List<Rectangle>();
             fireTime = 0;
             enemyShots = new List<Rectangle>();
@@ -92,12 +102,31 @@ namespace Galaga
             pBull1 = new Rectangle(364, 193, 20, 20);
             eBull1 = new Rectangle(372, 49, 20, 20);
 
-            explosion1 = new Rectangle(208, 187, 20, 20);
-            explosion2 = new Rectangle(229, 187, 20, 20);
-            explosion3 = new Rectangle(251, 187, 20, 20);
-            explosion4 = new Rectangle(278, 187, 20, 20);
-            explosion5 = new Rectangle(314, 187, 20, 20);
+            enemyExplosion = new List<Rectangle>();
+            enemyExplosion1 = new Rectangle(208, 187, 20, 20);
+            enemyExplosion.Add(enemyExplosion1);
+            enemyExplosion2 = new Rectangle(229, 187, 20, 20);
+            enemyExplosion.Add(enemyExplosion2);
+            enemyExplosion3 = new Rectangle(251, 187, 20, 20);
+            enemyExplosion.Add(enemyExplosion3);
+            enemyExplosion4 = new Rectangle(278, 187, 20, 20);
+            enemyExplosion.Add(enemyExplosion4);
+            enemyExplosion5 = new Rectangle(314, 187, 20, 20);
+            enemyExplosion.Add(enemyExplosion5);
 
+            playerExplosion = new List<Rectangle>();
+            playerExplosion1 = new Rectangle(210, 45, 40, 40);
+            playerExplosion.Add(playerExplosion1);
+            playerExplosion2 = new Rectangle(246, 45, 40, 40);
+            playerExplosion.Add(playerExplosion2);
+            playerExplosion3 = new Rectangle(285, 45, 40, 40);
+            playerExplosion.Add(playerExplosion3);
+            playerExplosion4 = new Rectangle(327, 45, 40, 40);
+            playerExplosion.Add(playerExplosion4);
+
+            explodePlayer = false;
+            explodeEnemy = false;
+            explosionTracker = 0;
 
             //enemy list
             enemySprites = new List<Rectangle>();
@@ -141,24 +170,19 @@ namespace Galaga
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         /// 
-        public void enemyMovement()
-        {
-            //for (int i = 0; i < enemies.Length; i++)
-            //{
-            //    enemies[i].X += move;
-            //    if (enemies[i].X + enemies[i].Width > GraphicsDevice.Viewport.Width || enemies[i].X < 10)
-            //    {
-            //        move *= -1;
-            //    }
-            //}
-            spaceFly.X += move;
-            if (spaceFly.X + spaceFly.Width > GraphicsDevice.Viewport.Width || spaceFly.X < 0)
-            {
-                move *= -1;
-            }
-        }
+
         protected override void Update(GameTime gameTime)
         {
+            timer++;
+            int seconds = timer / 60;
+            if(seconds % 10 == 0 && explodePlayer || explodeEnemy)
+            {
+                explosionTracker++;
+            } else
+            {
+                explosionTracker = 0;
+            }
+            
             // Allows the game to exit
             KeyboardState kb = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kb.IsKeyDown(Keys.Escape))
@@ -212,6 +236,8 @@ namespace Galaga
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, spaceFly, spaceFly1, Color.White);
+            if (explodePlayer || explodeEnemy)
+                playExplosion(spriteBatch, timer);
             spriteBatch.End();
             base.Draw(gameTime);
 
@@ -238,13 +264,28 @@ namespace Galaga
             }
 
         }
+        public void enemyMovement()
+        {
+            //for (int i = 0; i < enemies.Length; i++)
+            //{
+            //    enemies[i].X += move;
+            //    if (enemies[i].X + enemies[i].Width > GraphicsDevice.Viewport.Width || enemies[i].X < 10)
+            //    {
+            //        move *= -1;
+            //    }
+            //}
+            spaceFly.X += move;
+            if (spaceFly.X + spaceFly.Width > GraphicsDevice.Viewport.Width || spaceFly.X < 0)
+            {
+                move *= -1;
+            }
+        }
+
         public void eshoot()
         {
             enemyShots.Add(new Rectangle(spaceFly.X + 16, spaceFly.Y, 15, 20));
             
         }
-
-
 
         public void handleCollissions()
         {
@@ -254,6 +295,7 @@ namespace Galaga
                 if(playerShots[i].Intersects(spaceFly))
                 {
                     playerShots.Remove(playerShots[i]);
+                    explodeEnemy = true;
                 }
             }
 
@@ -262,9 +304,30 @@ namespace Galaga
                 if (enemyShots[i].Intersects(ship))
                 {
                     enemyShots.Remove(enemyShots[i]);
-                    ship.X = 500;
+                    life--;
+                    explodePlayer = true;
                 }
             }
+        }
+
+        public void playExplosion(SpriteBatch batch, int i)
+        {
+
+            if (explosionTracker >= playerExplosion.Count || explosionTracker >= enemyExplosion.Count)
+                return;
+
+            if (explodePlayer)
+            {
+                batch.Draw(galagaSpriteSheet, ship, playerExplosion[explosionTracker], Color.White);
+                explodePlayer = false;
+            }
+
+            if (explodeEnemy)
+            {
+                batch.Draw(galagaSpriteSheet, spaceFly, enemyExplosion[explosionTracker], Color.White);
+                explodeEnemy = false;
+            }
+
         }
 
     }

@@ -91,7 +91,7 @@ namespace Galaga
             spaceFly1 = new Rectangle(158, 174, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 10, 20);
-            eBull1 = new Rectangle(372, 49, 20, 20);
+            eBull1 = new Rectangle(372, 49, 10, 20);
 
             explosion1 = new Rectangle(208, 187, 20, 20);
             explosion2 = new Rectangle(229, 187, 20, 20);
@@ -232,7 +232,7 @@ namespace Galaga
             for (int i = 0; i < enemyLocations.Count; i++)
             {
 
-                enemyShots.Add(new Rectangle(enemyLocations[i].X + 16, enemyLocations[i].Y, 15, 20));
+                enemyShots.Add(new Rectangle(enemyLocations[i].X + 12, enemyLocations[i].Y, 20, 30));
             }
             
             

@@ -24,8 +24,10 @@ namespace Galaga
 
         //shooting things
         List<Rectangle> playerShots;
+        List<Rectangle> enemyShots;
         int fireTime;
-
+        int efireTime;
+        int life = 3;
 
         Rectangle ship;
         Rectangle spaceFly;
@@ -37,6 +39,8 @@ namespace Galaga
         Rectangle pBull1;
         Rectangle eBull1;
         //363 193
+
+        Boolean playerhit = false;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -54,9 +58,12 @@ namespace Galaga
             // TODO: Add your initialization logic here
             ship = new Rectangle(10, 10, 35, 35);
             old = Keyboard.GetState();
+            
 
             playerShots = new List<Rectangle>();
             fireTime = 0;
+            enemyShots = new List<Rectangle>();
+            efireTime = 0;
 
             //on screen
             ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 50, 35, 35);
@@ -109,6 +116,8 @@ namespace Galaga
                 this.Exit();
 
             // TODO: Add your update logic here
+
+            
             if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
             {
                 ship.X++;
@@ -117,6 +126,16 @@ namespace Galaga
             {
                 ship.X--;
             }
+
+            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
+            {
+                ship.X++;
+            }
+            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
+            {
+                ship.X--; ;
+            }
+
             if (kb.IsKeyDown(Keys.Space))
             {
                 if (fireTime % 10 == 0)
@@ -126,7 +145,8 @@ namespace Galaga
                 fireTime++;
             }
             shoot();
-
+            handleCollissions();
+            
             base.Update(gameTime);
         }
 
@@ -154,11 +174,48 @@ namespace Galaga
 
         public void shoot()
         {
-            for (int i = 0; i < playerShots.Count; i++)
+            for (int i = playerShots.Count - 1; i > 0; i--)
             {
                 playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 10, playerShots[i].Width, playerShots[i].Height);
             }
         }
 
+        public void shipMovement(KeyboardState kb)
+        {
+
+            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
+            {
+                ship.X++;
+            }
+            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
+            {
+                ship.X--;
+            }
+
+            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
+            {
+                ship.X++;
+            }
+            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
+            {
+                ship.X--; ;
+            }
+
+        }
+
+        public void handleCollissions()
+        {
+
+            for (int i = playerShots.Count - 1; i > 0; i--)
+            {
+
+                if(playerShots[i].Intersects(spaceFly))
+                {
+
+                    playerShots.Remove(playerShots[i]);
+
+                }
+            }
+        }
     }
 }

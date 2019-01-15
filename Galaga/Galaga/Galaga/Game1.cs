@@ -161,7 +161,7 @@ namespace Galaga
 
         public void shoot()
         {
-            for (int i = playerShots.Count - 1; i > 0; i--)
+            for (int i = playerShots.Count - 1; i >= 0; i--)
             {
                 playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 10, playerShots[i].Width, playerShots[i].Height);
             }

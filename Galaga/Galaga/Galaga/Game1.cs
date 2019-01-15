@@ -21,6 +21,7 @@ namespace Galaga
         SpriteBatch spriteBatch;
 
         Texture2D galagaSpriteSheet;
+        Texture2D background;
         KeyboardState old;
 
         int timer;
@@ -60,11 +61,16 @@ namespace Galaga
         int move;
 
         //lives and score
+        SpriteFont font;
         int life;
+        int highScore;
         int score;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 650;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -88,7 +94,7 @@ namespace Galaga
 
             //on screen
             ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 50, 35, 35);
-            spaceFly = new Rectangle(10, 10, 35, 35);
+            spaceFly = new Rectangle(10, 50, 35, 35);
 
             playBullet = new Rectangle();
             enBullet = new Rectangle();
@@ -96,11 +102,10 @@ namespace Galaga
 
 
             //on sprite sheet
-            
             spaceFly1 = new Rectangle(158, 174, 20, 20);
 
-            pBull1 = new Rectangle(364, 193, 20, 20);
-            eBull1 = new Rectangle(372, 49, 20, 20);
+            pBull1 = new Rectangle(364, 193, 10, 20);
+            eBull1 = new Rectangle(372, 49, 10, 20);
 
             enemyExplosion = new List<Rectangle>();
             enemyExplosion1 = new Rectangle(208, 187, 20, 20);
@@ -129,16 +134,18 @@ namespace Galaga
             explosionTracker = 0;
 
             //enemy list
-            enemySprites = new List<Rectangle>();
-            enemyLocations = new List<Rectangle>();
-            enemySprites.Add(spaceFly);
+            enemySprites = new List<Rectangle>(); //on spriteSheet locations
+            enemyLocations = new List<Rectangle>(); //on screen locations
+            enemySprites.Add(spaceFly1);
             enemyLocations.Add(spaceFly);
             move = 3;
 
-
+            
             //life and score
             life = 3;
+            highScore = 20000;
             score = 0;
+            font = this.Content.Load<SpriteFont>("SpriteFont1");
             base.Initialize();
         }
 
@@ -151,6 +158,7 @@ namespace Galaga
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             galagaSpriteSheet = this.Content.Load<Texture2D>("Galaga Textures");
+            background = this.Content.Load<Texture2D>("download (6)");
 
             // TODO: use this.Content to load your game content here
         }
@@ -194,26 +202,28 @@ namespace Galaga
             {
                 if (fireTime % 10 == 0)
                 {
-                    playerShots.Add(new Rectangle(ship.X + 16, ship.Y + 5, 15, 20));
+                    playerShots.Add(new Rectangle(ship.X + 12, ship.Y + 5, 20 , 30));
                 }
                 fireTime++;
             }
             shoot();
-            //enemyshoot
-            efireTime++;
-            if (efireTime % 240 == 0)
-                eshoot();
-            for (int i = 0; i < enemyShots.Count; i++)
-                enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 3, enemyShots[i].Width, enemyShots[i].Height);
+            
+            enemyShoot();
             handleCollissions();
             shipMovement(kb);
-
+            
             enemyMovement();
 
             //extra life based on scoring
-            if (score == 30000 || score == 80000)
+            if (score == 20000 || score % 70000 == 0)
             {
                 life++;
+            }
+
+            //new high score
+            if (score > highScore)
+            {
+                highScore = score;
             }
             base.Update(gameTime);
         }
@@ -228,16 +238,24 @@ namespace Galaga
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             for (int i = 0; i < playerShots.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.White);
+                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.SkyBlue);
+
             for (int i = 0; i < enemyShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
+
             spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
-            spriteBatch.Draw(galagaSpriteSheet, spaceFly, spaceFly1, Color.White);
-            if (explodePlayer || explodeEnemy)
-                playExplosion(spriteBatch, timer);
+            spriteBatch.DrawString(font, "1UP", new Vector2(20, 10), Color.Red);
+            spriteBatch.DrawString(font, "HIGH SCORE", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 10), Color.Red);
+            spriteBatch.DrawString(font, "" + score, new Vector2(20, 25), Color.White);
+            spriteBatch.DrawString(font, "" + highScore, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 25), Color.White);
+
+            for (int i = 0; i < enemySprites.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, enemyLocations[i], enemySprites[i], Color.White);
+
             spriteBatch.End();
             base.Draw(gameTime);
 
@@ -247,14 +265,16 @@ namespace Galaga
         {
             for (int i = playerShots.Count - 1; i >= 0; i--)
             {
-                playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 10, playerShots[i].Width, playerShots[i].Height);
+                playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 20, playerShots[i].Width, playerShots[i].Height);
             }
         }
 
         public void shipMovement(KeyboardState kb)
         {
 
-            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
+
+
+            if (kb.IsKeyDown(Keys.Right) && ship.X + ship.Width <= GraphicsDevice.Viewport.Width)
             {
                 ship.X += 5;
             }
@@ -283,8 +303,22 @@ namespace Galaga
 
         public void eshoot()
         {
-            enemyShots.Add(new Rectangle(spaceFly.X + 16, spaceFly.Y, 15, 20));
+            for (int i = 0; i < enemyLocations.Count; i++)
+            {
+
+                enemyShots.Add(new Rectangle(enemyLocations[i].X + 12, enemyLocations[i].Y, 20, 30));
+            }
             
+            
+        }
+
+        public void enemyShoot()
+        {
+            efireTime++;
+            if (efireTime % 240 == 0)
+                eshoot();
+            for (int i = 0; i < enemyShots.Count; i++)
+                enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 7, enemyShots[i].Width, enemyShots[i].Height);
         }
 
         public void handleCollissions()
@@ -292,10 +326,15 @@ namespace Galaga
 
             for (int i = playerShots.Count - 1; i >= 0; i--)
             {
-                if(playerShots[i].Intersects(spaceFly))
+                for (int k = enemyLocations.Count - 1; k >= 0; k--)
                 {
-                    playerShots.Remove(playerShots[i]);
-                    explodeEnemy = true;
+                    if (playerShots[i].Intersects(enemyLocations[k]))
+                    {
+                        playerShots.Remove(playerShots[i]);
+                        enemySprites.Remove(enemySprites[k]);
+                        enemyLocations.Remove(enemyLocations[k]);
+                        score += 100;
+                    }
                 }
             }
 
@@ -330,5 +369,19 @@ namespace Galaga
 
         }
 
+        public void enemyMovement()
+        {
+            for (int i = 0; i < enemyLocations.Count; i++)
+            {
+                Rectangle currentEnemy = enemyLocations[i];
+                currentEnemy.X += move;
+                enemyLocations[i] = currentEnemy;
+
+                if (enemyLocations[i].X + enemyLocations[i].Width > GraphicsDevice.Viewport.Width || enemyLocations[i].X < 10)
+                {
+                    move *= -1;
+                }
+            }
+        }
     }
 }

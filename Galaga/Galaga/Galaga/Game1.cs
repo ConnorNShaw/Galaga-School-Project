@@ -29,21 +29,37 @@ namespace Galaga
         int efireTime;
         int life = 3;
 
+        //sprite location on the screen
         Rectangle ship;
         Rectangle spaceFly;
         Rectangle playBullet; //player's bullet
         Rectangle enBullet; //enemy bullet
+        Rectangle explosion;
 
         //sprite location on picture
         Rectangle spaceFly1;
         Rectangle pBull1;
         Rectangle eBull1;
-        //363 193
+        Rectangle explosion1;
+        Rectangle explosion2;
+        Rectangle explosion3;
+        Rectangle explosion4;
+        Rectangle explosion5;
 
-        Boolean playerhit = false;
+        //list of enemies
+        List<Rectangle> enemySprites;
+        List<Rectangle> enemyLocations;
+        int move;
+
+        //lives and score
+        int life;
+        int score;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 650;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -56,7 +72,6 @@ namespace Galaga
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            ship = new Rectangle(10, 10, 35, 35);
             old = Keyboard.GetState();
             
 
@@ -71,13 +86,34 @@ namespace Galaga
 
             playBullet = new Rectangle();
             enBullet = new Rectangle();
+            explosion = new Rectangle();
 
 
             //on sprite sheet
+            
             spaceFly1 = new Rectangle(158, 174, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 20, 20);
             eBull1 = new Rectangle(372, 49, 20, 20);
+
+            explosion1 = new Rectangle(208, 187, 20, 20);
+            explosion2 = new Rectangle(229, 187, 20, 20);
+            explosion3 = new Rectangle(251, 187, 20, 20);
+            explosion4 = new Rectangle(278, 187, 20, 20);
+            explosion5 = new Rectangle(314, 187, 20, 20);
+
+
+            //enemy list
+            enemySprites = new List<Rectangle>(); //on spriteSheet locations
+            enemyLocations = new List<Rectangle>(); //on screen locations
+            enemySprites.Add(spaceFly1);
+            enemyLocations.Add(spaceFly);
+            move = 3;
+
+            
+            //life and score
+            life = 3;
+            score = 0;
             base.Initialize();
         }
 
@@ -108,6 +144,7 @@ namespace Galaga
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /// 
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -116,26 +153,7 @@ namespace Galaga
                 this.Exit();
 
             // TODO: Add your update logic here
-
-            
-            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
-            {
-                ship.X++;
-            }
-            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
-            {
-                ship.X--;
-            }
-
-            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
-            {
-                ship.X++;
-            }
-            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
-            {
-                ship.X--; ;
-            }
-
+            //shoots with space bar
             if (kb.IsKeyDown(Keys.Space))
             {
                 if (fireTime % 10 == 0)
@@ -145,6 +163,18 @@ namespace Galaga
                 fireTime++;
             }
             shoot();
+            
+            enemyShoot();
+            handleCollissions();
+            shipMovement(kb);
+            
+            enemyMovement();
+
+            //extra life based on scoring
+            if (score == 20000 || score % 70000 == 0)
+            {
+                life++;
+            }
             handleCollissions();
             
             base.Update(gameTime);
@@ -160,13 +190,20 @@ namespace Galaga
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+
             for (int i = 0; i < playerShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.White);
+
+            for (int i = 0; i < enemyShots.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
+
             spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
-            spriteBatch.Draw(galagaSpriteSheet, spaceFly, spaceFly1, Color.White);
-            
+
+            for (int i = 0; i < enemySprites.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, enemyLocations[i], enemySprites[i], Color.White);
+
             spriteBatch.End();
             base.Draw(gameTime);
 
@@ -174,9 +211,65 @@ namespace Galaga
 
         public void shoot()
         {
-            for (int i = playerShots.Count - 1; i > 0; i--)
+            for (int i = playerShots.Count - 1; i >= 0; i--)
             {
-                playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 10, playerShots[i].Width, playerShots[i].Height);
+                playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 20, playerShots[i].Width, playerShots[i].Height);
+            }
+        }
+
+        public void shipMovement(KeyboardState kb)
+        {
+
+
+
+            if (kb.IsKeyDown(Keys.Right) && ship.X + ship.Width <= GraphicsDevice.Viewport.Width)
+            {
+                ship.X += 5;
+            }
+            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
+            {
+                ship.X -= 5;
+            }
+
+        }
+        public void eshoot()
+        {
+            for (int i = 0; i < enemyLocations.Count; i++)
+            {
+
+                enemyShots.Add(new Rectangle(enemyLocations[i].X + 16, enemyLocations[i].Y, 15, 20));
+            }
+            
+            
+        }
+
+        public void enemyShoot()
+        {
+            efireTime++;
+            if (efireTime % 240 == 0)
+                eshoot();
+            for (int i = 0; i < enemyShots.Count; i++)
+                enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 7, enemyShots[i].Width, enemyShots[i].Height);
+        }
+
+        public void handleCollissions()
+        {
+
+            for (int i = playerShots.Count - 1; i >= 0; i--)
+            {
+                if(playerShots[i].Intersects(spaceFly))
+                {
+                    playerShots.Remove(playerShots[i]);
+                    score += 100;
+                }
+            }
+
+            for(int i = enemyShots.Count - 1; i >= 0; i--)
+            {
+                if (enemyShots[i].Intersects(ship))
+                {
+                    enemyShots.Remove(enemyShots[i]);
+                }
             }
         }
 
@@ -192,28 +285,17 @@ namespace Galaga
                 ship.X--;
             }
 
-            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
-            {
-                ship.X++;
-            }
-            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
-            {
-                ship.X--; ;
-            }
-
-        }
-
-        public void handleCollissions()
+        public void enemyMovement()
         {
-
-            for (int i = playerShots.Count - 1; i > 0; i--)
+            for (int i = 0; i < enemyLocations.Count; i++)
             {
+                Rectangle currentEnemy = enemyLocations[i];
+                currentEnemy.X += move;
+                enemyLocations[i] = currentEnemy;
 
-                if(playerShots[i].Intersects(spaceFly))
+                if (enemyLocations[i].X + enemyLocations[i].Width > GraphicsDevice.Viewport.Width || enemyLocations[i].X < 10)
                 {
-
-                    playerShots.Remove(playerShots[i]);
-
+                    move *= -1;
                 }
             }
         }

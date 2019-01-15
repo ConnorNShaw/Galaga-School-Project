@@ -44,7 +44,8 @@ namespace Galaga
         Rectangle explosion5;
 
         //list of enemies
-        Rectangle[] enemies;
+        List<Rectangle> enemySprites;
+        List<Rectangle> enemyLocations;
         int move;
 
         //lives and score
@@ -93,7 +94,8 @@ namespace Galaga
 
 
             //enemy list
-            enemies = new Rectangle[] { spaceFly };
+            enemySprites.Add(spaceFly);
+            enemyLocations.Add(spaceFly);
             move = 3;
 
 

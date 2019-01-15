@@ -56,6 +56,9 @@ namespace Galaga
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 650;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -216,7 +219,7 @@ namespace Galaga
         {
             for (int i = playerShots.Count - 1; i >= 0; i--)
             {
-                playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 10, playerShots[i].Width, playerShots[i].Height);
+                playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 20, playerShots[i].Width, playerShots[i].Height);
             }
         }
 
@@ -247,7 +250,7 @@ namespace Galaga
             if (efireTime % 240 == 0)
                 eshoot();
             for (int i = 0; i < enemyShots.Count; i++)
-                enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 3, enemyShots[i].Width, enemyShots[i].Height);
+                enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 7, enemyShots[i].Width, enemyShots[i].Height);
         }
 
         public void handleCollissions()

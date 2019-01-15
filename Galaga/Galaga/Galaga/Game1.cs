@@ -20,6 +20,7 @@ namespace Galaga
         SpriteBatch spriteBatch;
 
         Texture2D galagaSpriteSheet;
+        Texture2D background;
         KeyboardState old;
 
         //shooting things
@@ -93,7 +94,7 @@ namespace Galaga
             spaceFly1 = new Rectangle(158, 174, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 10, 20);
-            eBull1 = new Rectangle(372, 49, 20, 20);
+            eBull1 = new Rectangle(372, 49, 10, 20);
 
             explosion1 = new Rectangle(208, 187, 20, 20);
             explosion2 = new Rectangle(229, 187, 20, 20);
@@ -127,6 +128,7 @@ namespace Galaga
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             galagaSpriteSheet = this.Content.Load<Texture2D>("Galaga Textures");
+            background = this.Content.Load<Texture2D>("download (6)");
 
             // TODO: use this.Content to load your game content here
         }
@@ -190,7 +192,7 @@ namespace Galaga
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-
+            spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             for (int i = 0; i < playerShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.SkyBlue);
 
@@ -248,7 +250,7 @@ namespace Galaga
             for (int i = 0; i < enemyLocations.Count; i++)
             {
 
-                enemyShots.Add(new Rectangle(enemyLocations[i].X + 16, enemyLocations[i].Y, 15, 20));
+                enemyShots.Add(new Rectangle(enemyLocations[i].X + 12, enemyLocations[i].Y, 20, 30));
             }
             
             

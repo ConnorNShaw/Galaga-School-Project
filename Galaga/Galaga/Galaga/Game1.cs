@@ -102,13 +102,13 @@ namespace Galaga
 
 
             //enemy list
-            enemySprites = new List<Rectangle>();
-            enemyLocations = new List<Rectangle>();
-            enemySprites.Add(spaceFly);
+            enemySprites = new List<Rectangle>(); //on spriteSheet locations
+            enemyLocations = new List<Rectangle>(); //on screen locations
+            enemySprites.Add(spaceFly1);
             enemyLocations.Add(spaceFly);
             move = 3;
 
-
+            
             //life and score
             life = 3;
             score = 0;
@@ -143,22 +143,6 @@ namespace Galaga
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         /// 
-        public void enemyMovement()
-        {
-            //for (int i = 0; i < enemies.Length; i++)
-            //{
-            //    enemies[i].X += move;
-            //    if (enemies[i].X + enemies[i].Width > GraphicsDevice.Viewport.Width || enemies[i].X < 10)
-            //    {
-            //        move *= -1;
-            //    }
-            //}
-            spaceFly.X += move;
-            if (spaceFly.X + spaceFly.Width > GraphicsDevice.Viewport.Width || spaceFly.X < 0)
-            {
-                move *= -1;
-            }
-        }
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -181,11 +165,11 @@ namespace Galaga
             enemyShoot();
             handleCollissions();
             shipMovement(kb);
-
+            
             enemyMovement();
 
             //extra life based on scoring
-            if (score == 20000 || score == 70000)
+            if (score == 20000 || score % 70000 == 0)
             {
                 life++;
             }
@@ -209,7 +193,8 @@ namespace Galaga
             spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
-            spriteBatch.Draw(galagaSpriteSheet, spaceFly, spaceFly1, Color.White);
+            for (int i = 0; i < enemySprites.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, enemyLocations[i], enemySprites[i], Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
 
@@ -270,6 +255,21 @@ namespace Galaga
                 if (enemyShots[i].Intersects(ship))
                 {
                     enemyShots.Remove(enemyShots[i]);
+                }
+            }
+        }
+
+        public void enemyMovement()
+        {
+            for (int i = 0; i < enemyLocations.Count; i++)
+            {
+                Rectangle currentEnemy = enemyLocations[i];
+                currentEnemy.X += move;
+                enemyLocations[i] = currentEnemy;
+
+                if (enemyLocations[i].X + enemyLocations[i].Width > GraphicsDevice.Viewport.Width || enemyLocations[i].X < 10)
+                {
+                    move *= -1;
                 }
             }
         }

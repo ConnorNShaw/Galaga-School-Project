@@ -51,7 +51,9 @@ namespace Galaga
         int move;
 
         //lives and score
+        SpriteFont font;
         int life;
+        int highScore;
         int score;
         public Game1()
         {
@@ -80,7 +82,7 @@ namespace Galaga
 
             //on screen
             ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 50, 35, 35);
-            spaceFly = new Rectangle(10, 10, 35, 35);
+            spaceFly = new Rectangle(10, 50, 35, 35);
 
             playBullet = new Rectangle();
             enBullet = new Rectangle();
@@ -110,7 +112,9 @@ namespace Galaga
             
             //life and score
             life = 3;
+            highScore = 20000;
             score = 0;
+            font = this.Content.Load<SpriteFont>("SpriteFont1");
             base.Initialize();
         }
 
@@ -172,6 +176,12 @@ namespace Galaga
             {
                 life++;
             }
+
+            //new high score
+            if (score > highScore)
+            {
+                highScore = score;
+            }
             base.Update(gameTime);
         }
 
@@ -195,6 +205,10 @@ namespace Galaga
             spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
+            spriteBatch.DrawString(font, "1UP", new Vector2(20, 10), Color.Red);
+            spriteBatch.DrawString(font, "HIGH SCORE", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 10), Color.Red);
+            spriteBatch.DrawString(font, "" + score, new Vector2(20, 25), Color.White);
+            spriteBatch.DrawString(font, "" + highScore, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 25), Color.White);
 
             for (int i = 0; i < enemySprites.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, enemyLocations[i], enemySprites[i], Color.White);

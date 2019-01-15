@@ -112,15 +112,6 @@ namespace Galaga
                 this.Exit();
 
             // TODO: Add your update logic here
-
-            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
-            {
-                ship.X++;
-            }
-            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
-            {
-                ship.X--; ;
-            }
             //shoots with space bar
             if (kb.IsKeyDown(Keys.Space))
             {
@@ -138,6 +129,7 @@ namespace Galaga
             for (int i = 0; i < enemyShots.Count; i++)
                 enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 3, enemyShots[i].Width, enemyShots[i].Height);
             handleCollissions();
+            shipMovement(kb);
 
 
             base.Update(gameTime);
@@ -178,22 +170,15 @@ namespace Galaga
         public void shipMovement(KeyboardState kb)
         {
 
-            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
-            {
-                ship.X++;
-            }
-            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
-            {
-                ship.X--;
-            }
+
 
             if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
             {
-                ship.X++;
+                ship.X += 5;
             }
             if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
             {
-                ship.X--; ;
+                ship.X -= 5;
             }
 
         }
@@ -210,12 +195,17 @@ namespace Galaga
 
             for (int i = playerShots.Count - 1; i > 0; i--)
             {
-
                 if(playerShots[i].Intersects(spaceFly))
                 {
-
                     playerShots.Remove(playerShots[i]);
+                }
+            }
 
+            for(int i = enemyShots.Count - 1; i > 0; i--)
+            {
+                if (enemyShots[i].Intersects(ship))
+                {
+                    enemyShots.Remove(enemyShots[i]);
                 }
             }
         }

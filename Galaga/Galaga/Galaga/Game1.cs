@@ -225,7 +225,12 @@ namespace Galaga
         }
         public void eshoot()
         {
-            enemyShots.Add(new Rectangle(spaceFly.X + 16, spaceFly.Y, 15, 20));
+            for (int i = 0; i < enemyLocations.Count; i++)
+            {
+
+                enemyShots.Add(new Rectangle(enemyLocations[i].X + 16, enemyLocations[i].Y, 15, 20));
+            }
+            
             
         }
 

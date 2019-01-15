@@ -133,7 +133,7 @@ namespace Galaga
             shoot();
             //enemyshoot
             efireTime++;
-            if (efireTime % 60 == 0)
+            if (efireTime % 240 == 0)
                 eshoot();
             for (int i = 0; i < enemyShots.Count; i++)
                 enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 3, enemyShots[i].Width, enemyShots[i].Height);
@@ -202,6 +202,8 @@ namespace Galaga
             enemyShots.Add(new Rectangle(spaceFly.X + 16, spaceFly.Y, 15, 20));
             
         }
+
+
 
         public void handleCollissions()
         {

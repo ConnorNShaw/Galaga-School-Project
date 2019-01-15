@@ -85,6 +85,7 @@ namespace Galaga
 
 
             //on sprite sheet
+            
             spaceFly1 = new Rectangle(158, 174, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 20, 20);
@@ -98,6 +99,8 @@ namespace Galaga
 
 
             //enemy list
+            enemySprites = new List<Rectangle>();
+            enemyLocations = new List<Rectangle>();
             enemySprites.Add(spaceFly);
             enemyLocations.Add(spaceFly);
             move = 3;

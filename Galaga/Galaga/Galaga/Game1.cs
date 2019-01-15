@@ -20,6 +20,7 @@ namespace Galaga
         SpriteBatch spriteBatch;
 
         Texture2D galagaSpriteSheet;
+        Texture2D background;
         KeyboardState old;
 
         //shooting things
@@ -127,6 +128,7 @@ namespace Galaga
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             galagaSpriteSheet = this.Content.Load<Texture2D>("Galaga Textures");
+            background = this.Content.Load<Texture2D>("download (5)");
 
             // TODO: use this.Content to load your game content here
         }
@@ -195,7 +197,7 @@ namespace Galaga
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-
+            spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             for (int i = 0; i < playerShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.SkyBlue);
 

@@ -193,7 +193,7 @@ namespace Galaga
         public void handleCollissions()
         {
 
-            for (int i = playerShots.Count - 1; i > 0; i--)
+            for (int i = playerShots.Count - 1; i >= 0; i--)
             {
                 if(playerShots[i].Intersects(spaceFly))
                 {
@@ -201,7 +201,7 @@ namespace Galaga
                 }
             }
 
-            for(int i = enemyShots.Count - 1; i > 0; i--)
+            for(int i = enemyShots.Count - 1; i >= 0; i--)
             {
                 if (enemyShots[i].Intersects(ship))
                 {

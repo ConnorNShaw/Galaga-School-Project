@@ -186,7 +186,7 @@ namespace Galaga
             enemyMovement();
 
             //extra life based on scoring
-            if (score == 30000 || score == 80000)
+            if (score == 20000 || score == 70000)
             {
                 life++;
             }
@@ -255,6 +255,7 @@ namespace Galaga
                 if(playerShots[i].Intersects(spaceFly))
                 {
                     playerShots.Remove(playerShots[i]);
+                    score += 100;
                 }
             }
 

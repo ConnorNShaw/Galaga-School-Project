@@ -186,15 +186,20 @@ namespace Galaga
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+
             for (int i = 0; i < playerShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.White);
+
             for (int i = 0; i < enemyShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
+
             spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
+
             for (int i = 0; i < enemySprites.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, enemyLocations[i], enemySprites[i], Color.White);
+
             spriteBatch.End();
             base.Draw(gameTime);
 
@@ -213,7 +218,7 @@ namespace Galaga
 
 
 
-            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
+            if (kb.IsKeyDown(Keys.Right) && ship.X + ship.Width <= GraphicsDevice.Viewport.Width)
             {
                 ship.X += 5;
             }

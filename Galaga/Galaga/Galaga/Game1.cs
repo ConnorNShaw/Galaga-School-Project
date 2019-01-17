@@ -193,19 +193,26 @@ namespace Galaga
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+
             for (int i = 0; i < playerShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.SkyBlue);
 
             for (int i = 0; i < enemyShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
 
-            spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
+            if (life > -1)
+                spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
+            else
+                spriteBatch.DrawString(font, "GAME OVER", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.Turquoise);
+            //spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
+
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
             spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
             spriteBatch.DrawString(font, "1UP", new Vector2(20, 10), Color.Red);
             spriteBatch.DrawString(font, "HIGH SCORE", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 10), Color.Red);
             spriteBatch.DrawString(font, "" + score, new Vector2(20, 25), Color.White);
             spriteBatch.DrawString(font, "" + highScore, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 25), Color.White);
+
             for (int i = 0; i < life; i++)
             {
                 if ((score == 20000 || score % 70000 == 0) && score != 0)
@@ -232,10 +239,7 @@ namespace Galaga
 
         public void shipMovement(KeyboardState kb)
         {
-
-
-
-            if (kb.IsKeyDown(Keys.Right) && ship.X + ship.Width <= GraphicsDevice.Viewport.Width)
+            if (kb.IsKeyDown(Keys.Right) && ship.X + ship.Width < GraphicsDevice.Viewport.Width)
             {
                 ship.X += 5;
             }
@@ -243,8 +247,8 @@ namespace Galaga
             {
                 ship.X -= 5;
             }
-
         }
+
         public void eshoot()
         {
             for (int i = 0; i < enemyLocations.Count; i++)
@@ -252,8 +256,6 @@ namespace Galaga
 
                 enemyShots.Add(new Rectangle(enemyLocations[i].X + 12, enemyLocations[i].Y, 20, 30));
             }
-            
-            
         }
 
         public void enemyShoot()
@@ -267,7 +269,6 @@ namespace Galaga
 
         public void handleCollissions()
         {
-
             for (int i = playerShots.Count - 1; i >= 0; i--)
             {
                 for (int k = enemyLocations.Count - 1; k >= 0; k--)
@@ -281,7 +282,6 @@ namespace Galaga
                     }
                 }
             }
-
             for(int i = enemyShots.Count - 1; i >= 0; i--)
             {
                 if (enemyShots[i].Intersects(ship))

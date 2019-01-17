@@ -14,6 +14,7 @@ namespace Galaga
 {
     /// <summary>
     /// This is the main type for your game
+    /// peepee hurty
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
@@ -39,13 +40,16 @@ namespace Galaga
         //sprite location on the screen
         Rectangle ship;
         Rectangle spaceFly;
+        Rectangle birdy;
         Rectangle playBullet; //player's bullet
         Rectangle enBullet; //enemy bullet
         Rectangle explosion;
 
         //sprite location on sprite sheet
         Rectangle spaceFly1;
-        Rectangle butterfly;
+        Rectangle butterboi1;
+        Rectangle birdy1;
+
         Rectangle pBull1;
         Rectangle eBull1;
         List<Rectangle> enemyExplosion;
@@ -99,6 +103,7 @@ namespace Galaga
             //on screen
             ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 90, 35, 35);
             spaceFly = new Rectangle(10, 50, 35, 35);
+            birdy = new Rectangle(90, 50, 35, 35);
 
             playBullet = new Rectangle();
             enBullet = new Rectangle();
@@ -107,7 +112,8 @@ namespace Galaga
 
             //on sprite sheet
             spaceFly1 = new Rectangle(158, 174, 20, 20);
-            butterfly = new Rectangle(158, 152, 20, 20);
+            butterboi1 = new Rectangle(158, 152, 20, 20);
+            birdy1 = new Rectangle(158, 200, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 10, 20);
             eBull1 = new Rectangle(372, 49, 10, 20);
@@ -140,7 +146,8 @@ namespace Galaga
 
             //enemy list
             enemys.Add(new Enemy(spaceFly, spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(50, 50, 35, 35), butterfly));
+            enemys.Add(new Enemy(new Rectangle(50, 54, 35, 35), butterboi1));
+            enemys.Add(new Enemy(birdy, birdy1));
             move = 3;
             
             //life and score

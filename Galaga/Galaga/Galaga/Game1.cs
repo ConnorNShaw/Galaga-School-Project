@@ -38,6 +38,7 @@ namespace Galaga
 
         //sprite location on picture
         Rectangle spaceFly1;
+        Rectangle butterboi1;
         Rectangle pBull1;
         Rectangle eBull1;
         Rectangle explosion1;
@@ -47,8 +48,7 @@ namespace Galaga
         Rectangle explosion5;
 
         //list of enemies
-        List<Rectangle> enemySprites;
-        List<Rectangle> enemyLocations;
+        List<Enemy> enemys;
         int move;
 
         //lives and score
@@ -80,6 +80,7 @@ namespace Galaga
             fireTime = 0;
             enemyShots = new List<Rectangle>();
             efireTime = 0;
+            enemys = new List<Enemy>();
 
             //on screen
             ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 90, 35, 35);
@@ -92,6 +93,7 @@ namespace Galaga
 
             //on sprite sheet
             spaceFly1 = new Rectangle(158, 174, 20, 20);
+            butterboi1 = new Rectangle(158, 152, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 10, 20);
             eBull1 = new Rectangle(372, 49, 10, 20);
@@ -104,15 +106,13 @@ namespace Galaga
 
 
             //enemy list
-            enemySprites = new List<Rectangle>(); //on spriteSheet locations
-            enemyLocations = new List<Rectangle>(); //on screen locations
-            enemySprites.Add(spaceFly1);
-            enemyLocations.Add(spaceFly);
+            enemys.Add(new Enemy(spaceFly, spaceFly1));
+            enemys.Add(new Enemy(new Rectangle(50, 50, 35, 35), butterboi1));
             move = 3;
 
             
             //life and score
-            life = 3;
+            life = 2;
             highScore = 20000;
             score = 0;
             font = this.Content.Load<SpriteFont>("SpriteFont1");
@@ -214,8 +214,8 @@ namespace Galaga
                 }
                 spriteBatch.Draw(galagaSpriteSheet, new Rectangle(0 + (i * 35), GraphicsDevice.Viewport.Height - ship.Height, 35, 35), new Rectangle(181, 53, 20, 20), Color.White);
             }
-            for (int i = 0; i < enemySprites.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, enemyLocations[i], enemySprites[i], Color.White);
+            for (int i = 0; i < enemys.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, enemys[i].pos, enemys[i].spritePos, Color.White);
 
             spriteBatch.End();
             base.Draw(gameTime);
@@ -247,10 +247,10 @@ namespace Galaga
         }
         public void eshoot()
         {
-            for (int i = 0; i < enemyLocations.Count; i++)
+            for (int i = 0; i < enemys.Count; i++)
             {
 
-                enemyShots.Add(new Rectangle(enemyLocations[i].X + 12, enemyLocations[i].Y, 20, 30));
+                enemyShots.Add(new Rectangle(enemys[i].pos.X + 12, enemys[i].pos.Y, 20, 30));
             }
             
             
@@ -270,14 +270,15 @@ namespace Galaga
 
             for (int i = playerShots.Count - 1; i >= 0; i--)
             {
-                for (int k = enemyLocations.Count - 1; k >= 0; k--)
+                for (int k = enemys.Count - 1; k >= 0; k--)
                 {
-                    if (playerShots[i].Intersects(enemyLocations[k]))
+                    if (playerShots[i].Intersects(enemys[k].pos))
                     {
+                        score += enemys[k].value;
                         playerShots.Remove(playerShots[i]);
-                        enemySprites.Remove(enemySprites[k]);
-                        enemyLocations.Remove(enemyLocations[k]);
-                        score += 100;
+                        enemys.Remove(enemys[k]);
+                        break;
+                        
                     }
                 }
             }
@@ -293,13 +294,12 @@ namespace Galaga
 
         public void enemyMovement()
         {
-            for (int i = 0; i < enemyLocations.Count; i++)
+            for (int i = 0; i < enemys.Count; i++)
             {
-                Rectangle currentEnemy = enemyLocations[i];
-                currentEnemy.X += move;
-                enemyLocations[i] = currentEnemy;
+               
+                enemys[i].pos.X += move;
 
-                if (enemyLocations[i].X + enemyLocations[i].Width > GraphicsDevice.Viewport.Width || enemyLocations[i].X < 5)
+                if (enemys[i].pos.X + enemys[i].pos.Width > GraphicsDevice.Viewport.Width || enemys[i].pos.X < 5)
                 {
                     move *= -1;
                 }

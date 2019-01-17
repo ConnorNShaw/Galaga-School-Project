@@ -128,7 +128,7 @@ namespace Galaga
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             galagaSpriteSheet = this.Content.Load<Texture2D>("Galaga Textures");
-            background = this.Content.Load<Texture2D>("download (6)");
+            background = this.Content.Load<Texture2D>("images (1)");
 
             // TODO: use this.Content to load your game content here
         }

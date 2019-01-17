@@ -138,7 +138,7 @@ namespace Galaga
 
             //enemy list
             enemys.Add(new Enemy(spaceFly, spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(50, 50, 35, 35), butterboi1));
+            enemys.Add(new Enemy(new Rectangle(50, 54, 35, 35), butterboi1));
             move = 3;
             
             //life and score

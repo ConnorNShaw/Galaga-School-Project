@@ -56,6 +56,11 @@ namespace Galaga
         int life;
         int highScore;
         int score;
+
+        //Results
+        int shotsfired;
+        int shotshit;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);

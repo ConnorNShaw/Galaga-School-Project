@@ -31,9 +31,5 @@ namespace Galaga
             if (spritePos.Y == 152)
                 value = 50;
         }
-        
-
     }
-
-
 }

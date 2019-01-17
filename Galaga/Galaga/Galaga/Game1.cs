@@ -26,6 +26,9 @@ namespace Galaga
 
         int timer;
 
+        //random gen
+        Random rando = new Random();
+
         //shooting things
         List<Rectangle> playerShots;
         List<Rectangle> enemyShots;
@@ -42,15 +45,14 @@ namespace Galaga
 
         //sprite location on sprite sheet
         Rectangle spaceFly1;
-        Rectangle butterboi1;
+        Rectangle butterfly;
         Rectangle pBull1;
         Rectangle eBull1;
         List<Rectangle> enemyExplosion;
         Rectangle enemyExplosion1, enemyExplosion2, enemyExplosion3, enemyExplosion4, enemyExplosion5;
         List<Rectangle> playerExplosion;
         Rectangle playerExplosion1, playerExplosion2, playerExplosion3, playerExplosion4;
-
-
+        
         //Booleans determine which explosion to draw
         bool explodePlayer;
         bool explodeEnemy;
@@ -105,7 +107,7 @@ namespace Galaga
 
             //on sprite sheet
             spaceFly1 = new Rectangle(158, 174, 20, 20);
-            butterboi1 = new Rectangle(158, 152, 20, 20);
+            butterfly = new Rectangle(158, 152, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 10, 20);
             eBull1 = new Rectangle(372, 49, 10, 20);
@@ -138,7 +140,7 @@ namespace Galaga
 
             //enemy list
             enemys.Add(new Enemy(spaceFly, spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(50, 50, 35, 35), butterboi1));
+            enemys.Add(new Enemy(new Rectangle(50, 50, 35, 35), butterfly));
             move = 3;
             
             //life and score
@@ -182,18 +184,6 @@ namespace Galaga
 
         protected override void Update(GameTime gameTime)
         {
-            timer++;
-            int seconds = timer / 60;
-
-            if (seconds % 10 == 0 && explodePlayer || explodeEnemy)
-            {
-                explosionTracker++;
-            }
-            else
-            {
-                explosionTracker = 0;
-            }
-
             // Allows the game to exit
             KeyboardState kb = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kb.IsKeyDown(Keys.Escape))
@@ -216,7 +206,6 @@ namespace Galaga
             shipMovement(kb);
 
             enemyMovement();
-
 
             //new high score
             if (score > highScore)
@@ -274,83 +263,90 @@ namespace Galaga
         }
     
 
-    public void shoot()
-    {
-        for (int i = playerShots.Count - 1; i >= 0; i--)
+        public void shoot()
         {
-            playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 20, playerShots[i].Width, playerShots[i].Height);
-        }
-    }
-
-    public void shipMovement(KeyboardState kb)
-    {
-        if (kb.IsKeyDown(Keys.Right) && ship.X + ship.Width < GraphicsDevice.Viewport.Width)
-        {
-            ship.X += 5;
-        }
-        if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
-        {
-            ship.X -= 5;
-        }
-    }
-
-    public void eshoot()
-    {
-        for (int i = 0; i < enemys.Count; i++)
-        {
-
-            enemyShots.Add(new Rectangle(enemys[i].pos.X + 12, enemys[i].pos.Y, 20, 30));
-        }
-    }
-
-    public void enemyShoot()
-    {
-        efireTime++;
-        if (efireTime % 240 == 0)
-            eshoot();
-        for (int i = 0; i < enemyShots.Count; i++)
-            enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 7, enemyShots[i].Width, enemyShots[i].Height);
-    }
-
-    public void handleCollissions()
-    {
-        for (int i = playerShots.Count - 1; i >= 0; i--)
-        {
-            for (int k = enemys.Count - 1; k >= 0; k--)
+            for (int i = playerShots.Count - 1; i >= 0; i--)
             {
-                if (playerShots[i].Intersects(enemys[k].pos))
-                {
-                    score += enemys[k].value;
-                    playerShots.Remove(playerShots[i]);
-                    enemys.Remove(enemys[k]);
-                    break;
+                playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 20, playerShots[i].Width, playerShots[i].Height);
+            }
+        }
 
+        public void shipMovement(KeyboardState kb)
+        {
+            if (kb.IsKeyDown(Keys.Right) && ship.X + ship.Width < GraphicsDevice.Viewport.Width)
+            {
+                ship.X += 5;
+            }
+            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
+            {
+                ship.X -= 5;
+            }
+        }
+
+        public void eshoot()
+        {
+            for (int i = 0; i < enemys.Count; i++)
+            {
+
+                enemyShots.Add(new Rectangle(enemys[i].pos.X + 12, enemys[i].pos.Y, 20, 30));
+            }
+        }
+
+        public void enemyShoot()
+        {
+            efireTime++;
+            if (efireTime % 240 == 0)
+                eshoot();
+            for (int i = 0; i < enemyShots.Count; i++)
+                enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 7, enemyShots[i].Width, enemyShots[i].Height);
+        }
+
+        public void handleCollissions()
+        {
+            for (int i = playerShots.Count - 1; i >= 0; i--)
+            {
+                for (int k = enemys.Count - 1; k >= 0; k--)
+                {
+                    if (playerShots[i].Intersects(enemys[k].pos))
+                    {
+                        score += enemys[k].value;
+                        playerShots.Remove(playerShots[i]);
+                        enemys.Remove(enemys[k]);
+                        break;
+
+                    }
+                }
+            }
+            for (int i = enemyShots.Count - 1; i >= 0; i--)
+            {
+                if (enemyShots[i].Intersects(ship))
+                {
+                    enemyShots.Remove(enemyShots[i]);
+                    life--;
+                    explodePlayer = true;
                 }
             }
         }
-        for (int i = enemyShots.Count - 1; i >= 0; i--)
+
+        public void enemyMovement()
         {
-            if (enemyShots[i].Intersects(ship))
+            for (int i = 0; i < enemys.Count; i++)
             {
-                enemyShots.Remove(enemyShots[i]);
-                life--;
-                explodePlayer = true;
+                enemys[i].pos.X += move;
+                if (enemys[i].pos.X + enemys[i].pos.Width > GraphicsDevice.Viewport.Width || enemys[i].pos.X < 5)
+                {
+                    move *= -1;
+                }
+            }
+        }
+
+        public void enemyGen()
+        {
+            if (enemys.Count < 10)
+            {
+                rando.Next();
+                enemys.Add(new Rectangle(rando.Next(), rando.Next(), 20, 20), new Rectangle());
             }
         }
     }
-
-    public void enemyMovement()
-    {
-        for (int i = 0; i < enemys.Count; i++)
-        {
-
-            enemys[i].pos.X += move;
-
-            if (enemys[i].pos.X + enemys[i].pos.Width > GraphicsDevice.Viewport.Width || enemys[i].pos.X < 5)
-            {
-                move *= -1;
-            }
-        }
-    }
-}
 }

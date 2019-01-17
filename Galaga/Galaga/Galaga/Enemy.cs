@@ -30,6 +30,8 @@ namespace Galaga
                 value = 100;
             if (spritePos.Y == 152)
                 value = 50;
+            if (spritePos.Y == 200)
+                value = 100; ;
         }
         
 

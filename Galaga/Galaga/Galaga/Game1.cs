@@ -183,14 +183,16 @@ namespace Galaga
         {
             timer++;
             int seconds = timer / 60;
-            if(seconds % 10 == 0 && explodePlayer || explodeEnemy)
+
+            if (seconds % 10 == 0 && explodePlayer || explodeEnemy)
             {
                 explosionTracker++;
-            } else
+            }
+            else
             {
                 explosionTracker = 0;
             }
-            
+
             // Allows the game to exit
             KeyboardState kb = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kb.IsKeyDown(Keys.Escape))
@@ -256,7 +258,9 @@ namespace Galaga
                 spriteBatch.Draw(galagaSpriteSheet, new Rectangle(0 + (i * 35), GraphicsDevice.Viewport.Height - ship.Height, 35, 35), new Rectangle(181, 53, 20, 20), Color.White);
             }
             for (int i = 0; i < enemySprites.Count; i++)
+            {
                 spriteBatch.Draw(galagaSpriteSheet, enemyLocations[i], enemySprites[i], Color.White);
+            }
 
             spriteBatch.End();
             base.Draw(gameTime);
@@ -286,22 +290,6 @@ namespace Galaga
             }
 
         }
-        //public void enemyMovement()
-        //{
-        //    //for (int i = 0; i < enemies.Length; i++)
-        //    //{
-        //    //    enemies[i].X += move;
-        //    //    if (enemies[i].X + enemies[i].Width > GraphicsDevice.Viewport.Width || enemies[i].X < 10)
-        //    //    {
-        //    //        move *= -1;
-        //    //    }
-        //    //}
-        //    spaceFly.X += move;
-        //    if (spaceFly.X + spaceFly.Width > GraphicsDevice.Viewport.Width || spaceFly.X < 0)
-        //    {
-        //        move *= -1;
-        //    }
-        //}
 
         public void eshoot()
         {
@@ -349,26 +337,6 @@ namespace Galaga
                     explodePlayer = true;
                 }
             }
-        }
-
-        public void playExplosion(SpriteBatch batch, int i)
-        {
-
-            if (explosionTracker >= playerExplosion.Count || explosionTracker >= enemyExplosion.Count)
-                return;
-
-            if (explodePlayer)
-            {
-                batch.Draw(galagaSpriteSheet, ship, playerExplosion[explosionTracker], Color.White);
-                explodePlayer = false;
-            }
-
-            if (explodeEnemy)
-            {
-                batch.Draw(galagaSpriteSheet, spaceFly, enemyExplosion[explosionTracker], Color.White);
-                explodeEnemy = false;
-            }
-
         }
 
         public void enemyMovement()

@@ -40,8 +40,9 @@ namespace Galaga
         Rectangle enBullet; //enemy bullet
         Rectangle explosion;
 
-        //sprite location on picture
+        //sprite location on sprite sheet
         Rectangle spaceFly1;
+        Rectangle spaceFly2;
         Rectangle pBull1;
         Rectangle eBull1;
         List<Rectangle> enemyExplosion;
@@ -65,6 +66,7 @@ namespace Galaga
         int life;
         int highScore;
         int score;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -139,13 +141,13 @@ namespace Galaga
             enemySprites.Add(spaceFly1);
             enemyLocations.Add(spaceFly);
             move = 3;
-
             
             //life and score
             life = 3;
             highScore = 20000;
             score = 0;
             font = this.Content.Load<SpriteFont>("SpriteFont1");
+
             base.Initialize();
         }
 
@@ -246,7 +248,7 @@ namespace Galaga
             if (life > -1)
                 spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             else
-                spriteBatch.DrawString(font, "GAME OVER", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.Turquoise);
+                spriteBatch.DrawString(font, "GAME OVER", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2), Color.Turquoise);
             //spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
 
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
@@ -264,6 +266,7 @@ namespace Galaga
                 }
                 spriteBatch.Draw(galagaSpriteSheet, new Rectangle(0 + (i * 35), GraphicsDevice.Viewport.Height - ship.Height, 35, 35), new Rectangle(181, 53, 20, 20), Color.White);
             }
+
             for (int i = 0; i < enemySprites.Count; i++)
             {
                 spriteBatch.Draw(galagaSpriteSheet, enemyLocations[i], enemySprites[i], Color.White);
@@ -271,7 +274,6 @@ namespace Galaga
 
             spriteBatch.End();
             base.Draw(gameTime);
-
         }
 
         public void shoot()

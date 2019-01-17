@@ -93,7 +93,7 @@ namespace Galaga
             efireTime = 0;
 
             //on screen
-            ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 50, 35, 35);
+            ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 90, 35, 35);
             spaceFly = new Rectangle(10, 50, 35, 35);
 
             playBullet = new Rectangle();
@@ -158,7 +158,7 @@ namespace Galaga
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             galagaSpriteSheet = this.Content.Load<Texture2D>("Galaga Textures");
-            background = this.Content.Load<Texture2D>("download (6)");
+            background = this.Content.Load<Texture2D>("download (5)");
 
             // TODO: use this.Content to load your game content here
         }
@@ -213,12 +213,7 @@ namespace Galaga
             shipMovement(kb);
             
             enemyMovement();
-
-            //extra life based on scoring
-            if (score == 20000 || score % 70000 == 0)
-            {
-                life++;
-            }
+            
 
             //new high score
             if (score > highScore)
@@ -252,7 +247,14 @@ namespace Galaga
             spriteBatch.DrawString(font, "HIGH SCORE", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 10), Color.Red);
             spriteBatch.DrawString(font, "" + score, new Vector2(20, 25), Color.White);
             spriteBatch.DrawString(font, "" + highScore, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 25), Color.White);
-
+            for (int i = 0; i < life; i++)
+            {
+                if ((score == 20000 || score % 70000 == 0) && score != 0)
+                {
+                    life++;
+                }
+                spriteBatch.Draw(galagaSpriteSheet, new Rectangle(0 + (i * 35), GraphicsDevice.Viewport.Height - ship.Height, 35, 35), new Rectangle(181, 53, 20, 20), Color.White);
+            }
             for (int i = 0; i < enemySprites.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, enemyLocations[i], enemySprites[i], Color.White);
 
@@ -377,7 +379,7 @@ namespace Galaga
                 currentEnemy.X += move;
                 enemyLocations[i] = currentEnemy;
 
-                if (enemyLocations[i].X + enemyLocations[i].Width > GraphicsDevice.Viewport.Width || enemyLocations[i].X < 10)
+                if (enemyLocations[i].X + enemyLocations[i].Width > GraphicsDevice.Viewport.Width || enemyLocations[i].X < 5)
                 {
                     move *= -1;
                 }

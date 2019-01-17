@@ -27,7 +27,6 @@ namespace Galaga
         List<Rectangle> enemyShots;
         int fireTime;
         int efireTime;
-        int life = 3;
 
         //sprite location on the screen
         Rectangle ship;
@@ -260,7 +259,7 @@ namespace Galaga
                 if(playerShots[i].Intersects(spaceFly))
                 {
                     playerShots.Remove(playerShots[i]);
-                    score += 100;
+                    score += 50;
                 }
             }
 
@@ -269,21 +268,10 @@ namespace Galaga
                 if (enemyShots[i].Intersects(ship))
                 {
                     enemyShots.Remove(enemyShots[i]);
+                    life--;
                 }
             }
         }
-
-        public void shipMovement(KeyboardState kb)
-        {
-
-            if (kb.IsKeyDown(Keys.Right) && ship.X <= GraphicsDevice.Viewport.Width)
-            {
-                ship.X++;
-            }
-            if (kb.IsKeyDown(Keys.Left) && ship.X >= 0)
-            {
-                ship.X--;
-            }
 
         public void enemyMovement()
         {

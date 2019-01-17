@@ -67,8 +67,9 @@ namespace Galaga
         int score;
 
         //Results
-        int shotsfired;
-        int shotshit;
+        int shotsfired = 0;
+        int shotshit = 0;
+        
 
         public Game1()
         {
@@ -91,6 +92,7 @@ namespace Galaga
             old = Keyboard.GetState();
 
             timer = 0;
+
 
             playerShots = new List<Rectangle>();
             fireTime = 0;
@@ -151,6 +153,10 @@ namespace Galaga
             highScore = 20000;
             score = 0;
             font = this.Content.Load<SpriteFont>("SpriteFont1");
+
+            //ratio
+            
+
             base.Initialize();
         }
 
@@ -210,6 +216,7 @@ namespace Galaga
                 if (fireTime % 10 == 0)
                 {
                     playerShots.Add(new Rectangle(ship.X + 12, ship.Y + 5, 20 , 30));
+                    shotsfired++;
                 }
                 fireTime++;
             }
@@ -232,6 +239,10 @@ namespace Galaga
             base.Update(gameTime);
         }
 
+        //shot ratio
+        
+
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -239,6 +250,7 @@ namespace Galaga
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+            KeyboardState kb = Keyboard.GetState();
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
@@ -253,7 +265,17 @@ namespace Galaga
             if (life > -1)
                 spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             else
+            {
                 spriteBatch.DrawString(font, "GAME OVER", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.Turquoise);
+                if (kb.IsKeyDown(Keys.Enter))
+                {
+                    spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                    spriteBatch.DrawString(font, "Result!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.Red);
+                    spriteBatch.DrawString(font, "Shots Fired: " + shotsfired, new Vector2(GraphicsDevice.Viewport.Width / 2, 450), Color.Red);
+                    spriteBatch.DrawString(font, "Shots Hit: " + shotshit, new Vector2(GraphicsDevice.Viewport.Width / 2, 500), Color.Red);
+                    
+                }
+            }
             //spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
 
             spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
@@ -331,6 +353,7 @@ namespace Galaga
                         enemySprites.Remove(enemySprites[k]);
                         enemyLocations.Remove(enemyLocations[k]);
                         score += 100;
+                        shotshit++;
                     }
                 }
             }

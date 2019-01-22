@@ -58,7 +58,7 @@ namespace Galaga
 
         //sprite location on sprite sheet
         Rectangle spaceFly1;
-        Rectangle butterboi1;
+        Rectangle butterfly1;
         Rectangle birdy1;
         Rectangle boss1;
 
@@ -133,7 +133,7 @@ namespace Galaga
 
             //on sprite sheet
             spaceFly1 = new Rectangle(158, 174, 20, 20);
-            butterboi1 = new Rectangle(158, 152, 20, 20);
+            butterfly1 = new Rectangle(158, 152, 20, 20);
             birdy1 = new Rectangle(158, 200, 20, 20);
             boss1 = new Rectangle(158, 101, 20, 20);
 
@@ -168,25 +168,30 @@ namespace Galaga
 
             //enemy list
             //enemys.Add(new Enemy(birdy, birdy1));
-            enemys.Add(new Enemy(new Rectangle(55, 125, 35, 35), spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(25, 95, 35, 35), butterboi1));
-            enemys.Add(new Enemy(new Rectangle(5, 50, 35, 35), boss1));
+            //enemys.Add(new Enemy(new Rectangle(55, 125, 35, 35), spaceFly1));
+            //enemys.Add(new Enemy(new Rectangle(25, 95, 35, 35), butterfly1));
+            //enemys.Add(new Enemy(new Rectangle(5, 50, 35, 35), boss1));
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
-                enemys.Add(new Enemy(new Rectangle(5 + (i * 35), 50, 35, 35), boss1));
+                enemys.Add(new Enemy(new Rectangle(60 + (i * 35), 50, 35, 35), boss1));
             }
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 9; i++)
             {
-                enemys.Add(new Enemy(new Rectangle(25 + (i * 35), 95, 35, 35), butterboi1));
-                if (i == 0)
-                {
-
-                }
+                enemys.Add(new Enemy(new Rectangle(30 + (i * 35), 95, 35, 35), butterfly1));
             }
-            enemys.Add(new Enemy(new Rectangle(55 + 35, 125, 35, 35), spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(25 + 35, 95, 35, 35), butterboi1));
-            enemys.Add(new Enemy(new Rectangle(5 + 35, 50, 35, 35), boss1));
+            for (int i = 0; i < 9; i++)
+            {
+                enemys.Add(new Enemy(new Rectangle(30 + (i * 35), 125, 35, 35), butterfly1));
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                enemys.Add(new Enemy(new Rectangle(5 + (i * 35), 155, 35, 35), spaceFly1));
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                enemys.Add(new Enemy(new Rectangle(5 + (i * 35), 185, 35, 35), spaceFly1));
+            }
             move = 3;
             
             //life and score
@@ -371,17 +376,17 @@ namespace Galaga
 
         public void eshoot()
         {
-            for (int i = 0; i < enemys.Count; i++)
-            {
 
-                enemyShots.Add(new Rectangle(enemys[i].pos.X + 12, enemys[i].pos.Y, 20, 30));
-            }
+            Random ran = new Random();
+            int r = ran.Next(0, enemys.Count);
+                enemyShots.Add(new Rectangle(enemys[r].pos.X + 12, enemys[r].pos.Y, 20, 30));
+            
         }
 
         public void enemyShoot()
         {
             efireTime++;
-            if (efireTime % 240 == 0)
+            if (efireTime % (180 / enemys.Count) == 0)
                 eshoot();
             for (int i = 0; i < enemyShots.Count; i++)
                 enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 7, enemyShots[i].Width, enemyShots[i].Height);

@@ -384,6 +384,7 @@ namespace Galaga
                         
                         playerShots.Remove(playerShots[i]);
                         enemys[k].health--;
+                        enemys[k].checkBoss();
                         if (enemys[k].health == 0)
                         {
                             score += enemys[k].value;

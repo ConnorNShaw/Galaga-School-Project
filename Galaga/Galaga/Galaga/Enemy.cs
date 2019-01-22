@@ -40,5 +40,13 @@ namespace Galaga
                 health = 2;
             }
         }
+
+        public void checkBoss()
+        {
+            if (spritePos.Y == 101 && health == 1)
+            {
+                spritePos.Y = 126;
+            }
+        }
     }
 }

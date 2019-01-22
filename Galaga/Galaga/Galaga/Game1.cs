@@ -167,7 +167,7 @@ namespace Galaga
             //enemy list
             //enemys.Add(new Enemy(birdy, birdy1));
             enemys.Add(new Enemy(new Rectangle(55, 125, 35, 35), spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(25, 95, 35, 35), butterfly1));
+            enemys.Add(new Enemy(new Rectangle(25, 95, 35, 35), butterboi1));
             enemys.Add(new Enemy(new Rectangle(5, 50, 35, 35), boss1));
 
             for (int i = 0; i < 4; i++)
@@ -176,14 +176,14 @@ namespace Galaga
             }
             for (int i = 0; i < 15; i++)
             {
-                enemys.Add(new Enemy(new Rectangle(25 + (i * 35), 95, 35, 35), butterfly1));
+                enemys.Add(new Enemy(new Rectangle(25 + (i * 35), 95, 35, 35), butterboi1));
                 if (i == 0)
                 {
 
                 }
             }
             enemys.Add(new Enemy(new Rectangle(55 + 35, 125, 35, 35), spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(25 + 35, 95, 35, 35), butterfly1));
+            enemys.Add(new Enemy(new Rectangle(25 + 35, 95, 35, 35), butterboi1));
             enemys.Add(new Enemy(new Rectangle(5 + 35, 50, 35, 35), boss1));
             move = 3;
             

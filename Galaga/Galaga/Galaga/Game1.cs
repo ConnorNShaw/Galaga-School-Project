@@ -245,7 +245,8 @@ namespace Galaga
 
             for (int i = 0; i < enemyShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
-
+            for (int i = 0; i < enemys.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, enemys[i].pos, enemys[i].spritePos, Color.White);
             if (life > -1)
                 spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             else
@@ -267,8 +268,7 @@ namespace Galaga
                 }
                 spriteBatch.Draw(galagaSpriteSheet, new Rectangle(0 + (i * 35), GraphicsDevice.Viewport.Height - ship.Height, 35, 35), new Rectangle(181, 53, 20, 20), Color.White);
             }
-            for (int i = 0; i < enemys.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, enemys[i].pos, enemys[i].spritePos, Color.White);
+            
 
 
             spriteBatch.End();
@@ -343,14 +343,36 @@ namespace Galaga
 
         public void enemyMovement()
         {
+            bool bouncy = false;
             for (int i = 0; i < enemys.Count; i++)
             {
-                enemys[i].pos.X += move;
-                if (enemys[i].pos.X + enemys[i].pos.Width > GraphicsDevice.Viewport.Width || enemys[i].pos.X < 5)
+                enemys[i].pos.X += enemys[i].move;
+                if (enemys[i].pos.X + enemys[i].pos.Width >= GraphicsDevice.Viewport.Width || enemys[i].pos.X <= 0)
                 {
-                    move *= -1;
+                    bouncy = true;
+                    
+                }
+
+            }
+            if (bouncy)
+            {
+                for (int i = 0; i < enemys.Count; i++)
+                {
+                    enemys[i].move *= -1;
                 }
             }
+            for (int i = 0; i < enemys.Count; i++)
+            {
+                if (enemys[i].pos.X + enemys[i].pos.Width >= GraphicsDevice.Viewport.Width - 20)
+                {
+                    enemys[i].pos.X -= 9;
+                }
+                if (enemys[i].pos.X <= 0)
+                {
+                    enemys[i].pos.X += 9;
+                }
+            }
+
         }
 
         public void enemyGen()
@@ -360,15 +382,15 @@ namespace Galaga
 
                 int r = rando.Next(0, 3);
                 int sY;
-                if (r == 0)
+                if (r == 0) // fly
                     sY = 174;
-                else if (r == 1)
+                else if (r == 1) // butter
                     sY = 152;
-                else if (r == 2)
+                else if (r == 2) //bird
                     sY = 200;
                 else
                     sY = 174;
-                enemys.Add(new Enemy(new Rectangle(rando.Next(0, 770), rando.Next(0, 150), 35, 35), new Rectangle(158, sY, 20, 20)));
+                enemys.Add(new Enemy(new Rectangle(rando.Next(50, 750), rando.Next(0, 150), 35, 35), new Rectangle(158, sY, 20, 20)));
             }
         }
     }

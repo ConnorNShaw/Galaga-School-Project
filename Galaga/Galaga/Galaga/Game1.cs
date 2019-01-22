@@ -150,10 +150,10 @@ namespace Galaga
             explosionTracker = 0;
 
             //enemy list
-            enemys.Add(new Enemy(spaceFly, spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(50, 54, 35, 35), butterfly1));
-            enemys.Add(new Enemy(birdy, birdy1));
-            enemys.Add(new Enemy(boss, boss1));
+            enemys.Add(new Enemy(new Rectangle(50, 150, 35, 35), spaceFly1));
+            enemys.Add(new Enemy(new Rectangle(50, 95, 35, 35), butterfly1));
+            //enemys.Add(new Enemy(birdy, birdy1));
+            enemys.Add(new Enemy(new Rectangle(50, 50, 35, 35), boss1));
             move = 3;
             
             //life and score
@@ -221,7 +221,7 @@ namespace Galaga
                 handleCollissions();
                 shipMovement(kb);
                 
-                enemyGen();
+                //enemyGen();
                 if (life <= -1)
                 {
                     gameover = true;
@@ -363,26 +363,29 @@ namespace Galaga
                 {
                     move *= -1;
                 }
+                if (enemys[i].pos.X + enemys[i].pos.Width > GraphicsDevice.Viewport.Width + 5 || enemys[i].pos.X < 0)
+                {
+                    enemys.RemoveAt(i);
+                }
             }
         }
 
-        public void enemyGen()
-        {
-            if (enemys.Count < 10)
-            {
-
-                int r = rando.Next(0, 3);
-                int sY;
-                if (r == 0)
-                    sY = 174;
-                else if (r == 1)
-                    sY = 152;
-                else if (r == 2)
-                    sY = 200;
-                else
-                    sY = 174;
-                enemys.Add(new Enemy(new Rectangle(rando.Next(100, 670), rando.Next(50, 150), 35, 35), new Rectangle(158, sY, 20, 20)));
-            }
-        }
+        //public void enemyGen()
+        //{
+        //    if (enemys.Count < 10)
+        //    {
+        //        int r = rando.Next(0, 3);
+        //        int sY;
+        //        if (r == 0)
+        //            sY = 174;
+        //        else if (r == 1)
+        //            sY = 152;
+        //        else if (r == 2)
+        //            sY = 200;
+        //        else
+        //            sY = 174;
+        //        enemys.Add(new Enemy(new Rectangle(rando.Next(100, 670), rando.Next(50, 150), 35, 35), new Rectangle(158, sY, 20, 20)));
+        //    }
+        //}
     }
 }

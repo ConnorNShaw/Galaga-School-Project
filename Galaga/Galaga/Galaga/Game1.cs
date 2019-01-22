@@ -170,21 +170,21 @@ namespace Galaga
             enemys.Add(new Enemy(new Rectangle(25, 95, 35, 35), butterboi1));
             enemys.Add(new Enemy(new Rectangle(5, 50, 35, 35), boss1));
 
-            for (int i = 0; i < 4; i++)
-            {
-                enemys.Add(new Enemy(new Rectangle(5 + (i * 35), 50, 35, 35), boss1));
-            }
-            for (int i = 0; i < 15; i++)
-            {
-                enemys.Add(new Enemy(new Rectangle(25 + (i * 35), 95, 35, 35), butterboi1));
-                if (i == 0)
-                {
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    enemys.Add(new Enemy(new Rectangle(5 + (i * 35), 50, 35, 35), boss1));
+            //}
+            //for (int i = 0; i < 15; i++)
+            //{
+            //    enemys.Add(new Enemy(new Rectangle(25 + (i * 35), 95, 35, 35), butterboi1));
+            //    if (i == 0)
+            //    {
 
-                }
-            }
-            enemys.Add(new Enemy(new Rectangle(55 + 35, 125, 35, 35), spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(25 + 35, 95, 35, 35), butterboi1));
-            enemys.Add(new Enemy(new Rectangle(5 + 35, 50, 35, 35), boss1));
+            //    }
+            //}
+            //enemys.Add(new Enemy(new Rectangle(55 + 35, 125, 35, 35), spaceFly1));
+            //enemys.Add(new Enemy(new Rectangle(25 + 35, 95, 35, 35), butterboi1));
+            //enemys.Add(new Enemy(new Rectangle(5 + 35, 50, 35, 35), boss1));
             move = 3;
             
             //life and score
@@ -352,17 +352,18 @@ namespace Galaga
 
         public void eshoot()
         {
-            for (int i = 0; i < enemys.Count; i++)
-            {
 
-                enemyShots.Add(new Rectangle(enemys[i].pos.X + 12, enemys[i].pos.Y, 20, 30));
-            }
+            Random ran = new Random();
+            int r = ran.Next(0, enemys.Count);
+                enemyShots.Add(new Rectangle(enemys[r].pos.X + 12, enemys[r].pos.Y, 20, 30));
+            
         }
 
         public void enemyShoot()
         {
+            
             efireTime++;
-            if (efireTime % 240 == 0)
+            if (efireTime % (180 / enemys.Count) == 0)
                 eshoot();
             for (int i = 0; i < enemyShots.Count; i++)
                 enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 7, enemyShots[i].Width, enemyShots[i].Height);

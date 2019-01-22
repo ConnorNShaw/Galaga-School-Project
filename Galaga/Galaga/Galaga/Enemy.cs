@@ -19,12 +19,14 @@ namespace Galaga
         public int health;
         public int value;
         public bool alive;
+        public int move;
 
         public Enemy(Rectangle p, Rectangle sp)
         {
             pos = p;
             spritePos = sp;
             health = 1;
+            move = 3;
             alive = true;
             if (spritePos.Y == 174)
                 value = 100;

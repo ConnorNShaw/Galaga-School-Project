@@ -256,12 +256,10 @@ namespace Galaga
                 for (int i = 0; i < playerShots.Count; i++)
                     spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.SkyBlue);
 
-                for (int i = 0; i < enemyShots.Count; i++)
-                    spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
-                spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
-                spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
-            }
-
+            for (int i = 0; i < enemyShots.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
+            for (int i = 0; i < enemys.Count; i++)
+                spriteBatch.Draw(galagaSpriteSheet, enemys[i].pos, enemys[i].spritePos, Color.White);
             if (life > -1)
                 spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             else
@@ -281,8 +279,8 @@ namespace Galaga
                 }
                 spriteBatch.Draw(galagaSpriteSheet, new Rectangle(0 + (i * 35), GraphicsDevice.Viewport.Height - ship.Height, 35, 35), new Rectangle(181, 53, 20, 20), Color.White);
             }
-            for (int i = 0; i < enemys.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, enemys[i].pos, enemys[i].spritePos, Color.White);
+            
+
 
             spriteBatch.End();
             base.Draw(gameTime);

@@ -367,9 +367,11 @@ namespace Galaga
         public void enemyShoot()
         {
             efireTime++;
-            
-            if (efireTime % (180 / enemys.Count) == 0 && enemys.Count != 0)
-                eshoot();
+            if (enemys.Count != 0)
+            {
+                if (efireTime % 10 == 0)
+                    eshoot();
+            }
             for (int i = 0; i < enemyShots.Count; i++)
                 enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 7, enemyShots[i].Width, enemyShots[i].Height);
         }

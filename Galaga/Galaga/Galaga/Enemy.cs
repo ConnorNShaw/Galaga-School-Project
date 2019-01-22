@@ -33,7 +33,20 @@ namespace Galaga
             if (spritePos.Y == 152)
                 value = 50;
             if (spritePos.Y == 200)
-                value = 100; ;
+                value = 100; 
+            if (spritePos.Y == 101)
+            {
+                value = 200;
+                health = 2;
+            }
+        }
+
+        public void checkBoss()
+        {
+            if (spritePos.Y == 101 && health == 1)
+            {
+                spritePos.Y = 126;
+            }
         }
     }
 }

@@ -92,6 +92,52 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="3ofClubs.png">
+      <Name>3ofClubs</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="8d82b5_Galaga_Coin_Sound_Effect.wav">
+      <Name>8d82b5_Galaga_Coin_Sound_Effect</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="8d82b5_Galaga_Fighter_Captured_Sound_Effect.wav">
+      <Name>8d82b5_Galaga_Fighter_Captured_Sound_Effect</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="8d82b5_Galaga_Firing_Sound_Effect.wav">
+      <Name>8d82b5_Galaga_Firing_Sound_Effect</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="8d82b5_Galaga_Flying_Enemy_Sound_Effect.wav">
+      <Name>8d82b5_Galaga_Flying_Enemy_Sound_Effect</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="8d82b5_Galaga_Kill_Enemy_Sound_Effect.wav">
+      <Name>8d82b5_Galaga_Kill_Enemy_Sound_Effect</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="8d82b5_Galaga_Level_Start_Sound_Effect.wav">
+      <Name>8d82b5_Galaga_Level_Start_Sound_Effect</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="8d82b5_Galaga_Theme_Song.wav">
+      <Name>8d82b5_Galaga_Theme_Song</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

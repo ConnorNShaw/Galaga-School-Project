@@ -256,31 +256,31 @@ namespace Galaga
                 for (int i = 0; i < playerShots.Count; i++)
                     spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.SkyBlue);
 
-            for (int i = 0; i < enemyShots.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
-            for (int i = 0; i < enemys.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, enemys[i].pos, enemys[i].spritePos, Color.White);
-            if (life > -1)
-                spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
-            else
-                spriteBatch.DrawString(font, "GAME OVER", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2), Color.Turquoise);
-            //spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
-            
-            spriteBatch.DrawString(font, "1UP", new Vector2(20, 10), Color.Red);
-            spriteBatch.DrawString(font, "HIGH SCORE", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 10), Color.Red);
-            spriteBatch.DrawString(font, "" + score, new Vector2(20, 25), Color.White);
-            spriteBatch.DrawString(font, "" + highScore, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 25), Color.White);
+                for (int i = 0; i < enemyShots.Count; i++)
+                    spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
+                for (int i = 0; i < enemys.Count; i++)
+                    spriteBatch.Draw(galagaSpriteSheet, enemys[i].pos, enemys[i].spritePos, Color.White);
+                if (life > -1)
+                    spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
+                else
+                    spriteBatch.DrawString(font, "GAME OVER", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2), Color.Turquoise);
+                //spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
 
-            for (int i = 0; i < life; i++)
-            {
-                if ((score == 20000 || score % 70000 == 0) && score != 0)
+                spriteBatch.DrawString(font, "1UP", new Vector2(20, 10), Color.Red);
+                spriteBatch.DrawString(font, "HIGH SCORE", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 10), Color.Red);
+                spriteBatch.DrawString(font, "" + score, new Vector2(20, 25), Color.White);
+                spriteBatch.DrawString(font, "" + highScore, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 25), Color.White);
+
+                for (int i = 0; i < life; i++)
                 {
-                    life++;
+                    if ((score == 20000 || score % 70000 == 0) && score != 0)
+                    {
+                        life++;
+                    }
+                    spriteBatch.Draw(galagaSpriteSheet, new Rectangle(0 + (i * 35), GraphicsDevice.Viewport.Height - ship.Height, 35, 35), new Rectangle(181, 53, 20, 20), Color.White);
                 }
-                spriteBatch.Draw(galagaSpriteSheet, new Rectangle(0 + (i * 35), GraphicsDevice.Viewport.Height - ship.Height, 35, 35), new Rectangle(181, 53, 20, 20), Color.White);
-            }
-            
 
+            }
 
             spriteBatch.End();
             base.Draw(gameTime);

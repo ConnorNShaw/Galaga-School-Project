@@ -73,6 +73,7 @@ namespace Galaga
         int life;
         int highScore;
         int score;
+        Boolean gameover;
 
         public Game1()
         {
@@ -159,6 +160,7 @@ namespace Galaga
             life = 2;
             highScore = 20000;
             score = 0;
+            gameover = false;
             font = this.Content.Load<SpriteFont>("SpriteFont1");
 
             base.Initialize();
@@ -203,28 +205,37 @@ namespace Galaga
 
             // TODO: Add your update logic here
             //shoots with space bar
-            if (kb.IsKeyDown(Keys.Space))
+            if (gameover == false)
             {
-                if (fireTime % 10 == 0)
+                if (kb.IsKeyDown(Keys.Space))
                 {
-                    playerShots.Add(new Rectangle(ship.X + 12, ship.Y + 5, 20, 30));
+                    if (fireTime % 10 == 0)
+                    {
+                        playerShots.Add(new Rectangle(ship.X + 12, ship.Y + 5, 20, 30));
+                    }
+                    fireTime++;
                 }
-                fireTime++;
+                shoot();
+
+                enemyShoot();
+                handleCollissions();
+                shipMovement(kb);
+                
+                enemyGen();
+                if (life <= -1)
+                {
+                    gameover = true;
+                }
             }
-            shoot();
-
-            enemyShoot();
-            handleCollissions();
-            shipMovement(kb);
-
-            enemyMovement();
-            enemyGen();
-
-            //new high score
-            if (score > highScore)
+            else
             {
-                highScore = score;
+                //new high score
+                if (score > highScore)
+                {
+                    highScore = score;
+                }
             }
+            enemyMovement();
             base.Update(gameTime);
         }
 
@@ -240,8 +251,10 @@ namespace Galaga
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
 
-            for (int i = 0; i < playerShots.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.SkyBlue);
+            if (gameover == false)
+            {
+                for (int i = 0; i < playerShots.Count; i++)
+                    spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.SkyBlue);
 
             for (int i = 0; i < enemyShots.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
@@ -252,9 +265,7 @@ namespace Galaga
             else
                 spriteBatch.DrawString(font, "GAME OVER", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2), Color.Turquoise);
             //spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
-
-            spriteBatch.Draw(galagaSpriteSheet, playBullet, pBull1, Color.White);
-            spriteBatch.Draw(galagaSpriteSheet, enBullet, eBull1, Color.White);
+            
             spriteBatch.DrawString(font, "1UP", new Vector2(20, 10), Color.Red);
             spriteBatch.DrawString(font, "HIGH SCORE", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 10), Color.Red);
             spriteBatch.DrawString(font, "" + score, new Vector2(20, 25), Color.White);

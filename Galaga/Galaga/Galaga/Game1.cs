@@ -218,6 +218,7 @@ namespace Galaga
             shipMovement(kb);
 
             enemyMovement();
+            enemyGen();
 
             //new high score
             if (score > highScore)
@@ -356,8 +357,18 @@ namespace Galaga
         {
             if (enemys.Count < 10)
             {
-                rando.Next();
-                enemys.Add(new Rectangle(rando.Next(), rando.Next(), 20, 20), new Rectangle());
+
+                int r = rando.Next(0, 3);
+                int sY;
+                if (r == 0)
+                    sY = 174;
+                else if (r == 1)
+                    sY = 152;
+                else if (r == 2)
+                    sY = 200;
+                else
+                    sY = 174;
+                enemys.Add(new Enemy(new Rectangle(rando.Next(0, 770), rando.Next(0, 150), 35, 35), new Rectangle(158, sY, 20, 20)));
             }
         }
     }

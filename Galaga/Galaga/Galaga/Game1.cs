@@ -234,6 +234,7 @@ namespace Galaga
                     if (fireTime % 10 == 0)
                     {
                         playerShots.Add(new Rectangle(ship.X + 12, ship.Y + 5, 20, 30));
+                        FiringSound.Play();
                     }
                     fireTime++;
                 }

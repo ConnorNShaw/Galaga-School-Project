@@ -47,7 +47,7 @@ namespace Galaga
 
         //sprite location on sprite sheet
         Rectangle spaceFly1;
-        Rectangle butterboi1;
+        Rectangle butterfly1;
         Rectangle birdy1;
 
         Rectangle pBull1;
@@ -112,7 +112,7 @@ namespace Galaga
 
             //on sprite sheet
             spaceFly1 = new Rectangle(158, 174, 20, 20);
-            butterboi1 = new Rectangle(158, 152, 20, 20);
+            butterfly1 = new Rectangle(158, 152, 20, 20);
             birdy1 = new Rectangle(158, 200, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 10, 20);
@@ -146,7 +146,7 @@ namespace Galaga
 
             //enemy list
             enemys.Add(new Enemy(spaceFly, spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(50, 54, 35, 35), butterboi1));
+            enemys.Add(new Enemy(new Rectangle(50, 54, 35, 35), butterfly1));
             enemys.Add(new Enemy(birdy, birdy1));
             move = 3;
             

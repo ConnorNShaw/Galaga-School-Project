@@ -150,10 +150,26 @@ namespace Galaga
             explosionTracker = 0;
 
             //enemy list
-            enemys.Add(new Enemy(new Rectangle(50, 150, 35, 35), spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(50, 95, 35, 35), butterfly1));
             //enemys.Add(new Enemy(birdy, birdy1));
-            enemys.Add(new Enemy(new Rectangle(50, 50, 35, 35), boss1));
+            enemys.Add(new Enemy(new Rectangle(55, 125, 35, 35), spaceFly1));
+            enemys.Add(new Enemy(new Rectangle(25, 95, 35, 35), butterfly1));
+            enemys.Add(new Enemy(new Rectangle(5, 50, 35, 35), boss1));
+
+            for (int i = 0; i < 4; i++)
+            {
+                enemys.Add(new Enemy(new Rectangle(5 + (i * 35), 50, 35, 35), boss1));
+            }
+            for (int i = 0; i < 15; i++)
+            {
+                enemys.Add(new Enemy(new Rectangle(25 + (i * 35), 95, 35, 35), butterfly1));
+                if (i == 0)
+                {
+
+                }
+            }
+            enemys.Add(new Enemy(new Rectangle(55 + 35, 125, 35, 35), spaceFly1));
+            enemys.Add(new Enemy(new Rectangle(25 + 35, 95, 35, 35), butterfly1));
+            enemys.Add(new Enemy(new Rectangle(5 + 35, 50, 35, 35), boss1));
             move = 3;
             
             //life and score
@@ -256,8 +272,9 @@ namespace Galaga
                 for (int i = 0; i < playerShots.Count; i++)
                     spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.SkyBlue);
 
-            for (int i = 0; i < enemyShots.Count; i++)
-                spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
+                for (int i = 0; i < enemyShots.Count; i++)
+                    spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
+            }
             for (int i = 0; i < enemys.Count; i++)
                 spriteBatch.Draw(galagaSpriteSheet, enemys[i].pos, enemys[i].spritePos, Color.White);
             if (life > -1)
@@ -265,7 +282,7 @@ namespace Galaga
             else
                 spriteBatch.DrawString(font, "GAME OVER", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2), Color.Turquoise);
             //spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
-            
+
             spriteBatch.DrawString(font, "1UP", new Vector2(20, 10), Color.Red);
             spriteBatch.DrawString(font, "HIGH SCORE", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 10), Color.Red);
             spriteBatch.DrawString(font, "" + score, new Vector2(20, 25), Color.White);
@@ -279,9 +296,6 @@ namespace Galaga
                 }
                 spriteBatch.Draw(galagaSpriteSheet, new Rectangle(0 + (i * 35), GraphicsDevice.Viewport.Height - ship.Height, 35, 35), new Rectangle(181, 53, 20, 20), Color.White);
             }
-            
-
-
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -360,10 +374,6 @@ namespace Galaga
                 if (enemys[i].pos.X + enemys[i].pos.Width > GraphicsDevice.Viewport.Width || enemys[i].pos.X < 5)
                 {
                     move *= -1;
-                }
-                if (enemys[i].pos.X + enemys[i].pos.Width > GraphicsDevice.Viewport.Width + 5 || enemys[i].pos.X < 0)
-                {
-                    enemys.RemoveAt(i);
                 }
             }
         }

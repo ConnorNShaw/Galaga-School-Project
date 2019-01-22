@@ -26,6 +26,15 @@ namespace Galaga
 
         int timer;
 
+        //sounds
+        SoundEffect Theme;
+        SoundEffect StartSound;
+        SoundEffect KillEnemySound;
+        SoundEffect FiringSound;
+        SoundEffect FlyingEnemySound;
+        SoundEffect ShipCaptureSound;
+        SoundEffect CoinSound;
+
         //shooting things
         List<Rectangle> playerShots;
         List<Rectangle> enemyShots;
@@ -172,6 +181,13 @@ namespace Galaga
             spriteBatch = new SpriteBatch(GraphicsDevice);
             galagaSpriteSheet = this.Content.Load<Texture2D>("Galaga Textures");
             background = this.Content.Load<Texture2D>("download (5)");
+            Theme = this.Content.Load<SoundEffect>("8d82b5_Galaga_Theme_Song");
+            StartSound = this.Content.Load<SoundEffect>("8d82b5_Galaga_Level_Start_Sound_Effect");
+            KillEnemySound = this.Content.Load<SoundEffect>("8d82b5_Galaga_Kill_Enemy_Sound_Effect");
+            FiringSound = this.Content.Load<SoundEffect>("8d82b5_Galaga_Firing_Sound_Effect");
+            FlyingEnemySound = this.Content.Load<SoundEffect>("8d82b5_Galaga_Flying_Enemy_Sound_Effect");
+            ShipCaptureSound = this.Content.Load<SoundEffect>("8d82b5_Galaga_Fighter_Captured_Sound_Effect");
+            CoinSound = this.Content.Load<SoundEffect>("8d82b5_Galaga_Coin_Sound_Effect");
 
             // TODO: use this.Content to load your game content here
         }
@@ -219,6 +235,7 @@ namespace Galaga
                 {
                     playerShots.Add(new Rectangle(ship.X + 12, ship.Y + 5, 20 , 30));
                     shotsfired++;
+                    //FiringSound.Play();
                 }
                 fireTime++;
             }
@@ -262,6 +279,7 @@ namespace Galaga
                 spriteBatch.Draw(galagaSpriteSheet, playerShots[i], pBull1, Color.SkyBlue);
 
             for (int i = 0; i < enemyShots.Count; i++)
+
                 spriteBatch.Draw(galagaSpriteSheet, enemyShots[i], eBull1, Color.White);
 
             if (life > -1)
@@ -309,6 +327,7 @@ namespace Galaga
         for (int i = playerShots.Count - 1; i >= 0; i--)
         {
             playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 20, playerShots[i].Width, playerShots[i].Height);
+             
         }
     }
 
@@ -346,14 +365,14 @@ namespace Galaga
         {
             for (int i = playerShots.Count - 1; i >= 0; i--)
             {
-                for (int k = enemyLocations.Count - 1; k >= 0; k--)
+                for (int k = enemys.Count - 1; k >= 0; k--)
                 {
-                    if (playerShots[i].Intersects(enemyLocations[k]))
+                    if (playerShots[i].Intersects(enemys[k].pos))
                     {
                         playerShots.Remove(playerShots[i]);
-                        enemySprites.Remove(enemySprites[k]);
-                        enemyLocations.Remove(enemyLocations[k]);
-                        score += 100;
+                        enemys.Remove(enemys[k]);
+                        //KillEnemySound.Play();
+                        score += enemys[i].value;
                         shotshit++;
                     }
                 }

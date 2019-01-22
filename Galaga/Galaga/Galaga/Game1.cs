@@ -48,7 +48,7 @@ namespace Galaga
 
         //sprite location on sprite sheet
         Rectangle spaceFly1;
-        Rectangle butterfly1;
+        Rectangle butterboi1;
         Rectangle birdy1;
         Rectangle boss1;
 
@@ -116,9 +116,9 @@ namespace Galaga
 
             //on sprite sheet
             spaceFly1 = new Rectangle(158, 174, 20, 20);
-            butterfly1 = new Rectangle(158, 152, 20, 20);
+            butterboi1 = new Rectangle(158, 152, 20, 20);
             birdy1 = new Rectangle(158, 200, 20, 20);
-            boss1 = new Rectangle(156, 101, 20, 20);
+            boss1 = new Rectangle(158, 101, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 10, 20);
             eBull1 = new Rectangle(372, 49, 10, 20);
@@ -151,7 +151,7 @@ namespace Galaga
 
             //enemy list
             enemys.Add(new Enemy(new Rectangle(50, 150, 35, 35), spaceFly1));
-            enemys.Add(new Enemy(new Rectangle(50, 95, 35, 35), butterfly1));
+            enemys.Add(new Enemy(new Rectangle(50, 95, 35, 35), butterboi1));
             //enemys.Add(new Enemy(birdy, birdy1));
             enemys.Add(new Enemy(new Rectangle(50, 50, 35, 35), boss1));
             move = 3;
@@ -333,11 +333,15 @@ namespace Galaga
                 {
                     if (playerShots[i].Intersects(enemys[k].pos))
                     {
-                        score += enemys[k].value;
+                        
                         playerShots.Remove(playerShots[i]);
-                        enemys.Remove(enemys[k]);
-                        break;
-
+                        enemys[k].health--;
+                        if (enemys[k].health == 0)
+                        {
+                            score += enemys[k].value;
+                            enemys.Remove(enemys[k]);
+                            break;
+                        }
                     }
                 }
             }

@@ -41,6 +41,7 @@ namespace Galaga
         Rectangle ship;
         Rectangle spaceFly;
         Rectangle birdy;
+        Rectangle boss;
         Rectangle playBullet; //player's bullet
         Rectangle enBullet; //enemy bullet
         Rectangle explosion;
@@ -49,6 +50,7 @@ namespace Galaga
         Rectangle spaceFly1;
         Rectangle butterfly1;
         Rectangle birdy1;
+        Rectangle boss1;
 
         Rectangle pBull1;
         Rectangle eBull1;
@@ -104,6 +106,7 @@ namespace Galaga
             ship = new Rectangle(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 90, 35, 35);
             spaceFly = new Rectangle(10, 50, 35, 35);
             birdy = new Rectangle(90, 50, 35, 35);
+            boss = new Rectangle(170, 50, 35, 35);
 
             playBullet = new Rectangle();
             enBullet = new Rectangle();
@@ -114,6 +117,7 @@ namespace Galaga
             spaceFly1 = new Rectangle(158, 174, 20, 20);
             butterfly1 = new Rectangle(158, 152, 20, 20);
             birdy1 = new Rectangle(158, 200, 20, 20);
+            boss1 = new Rectangle(156, 101, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 10, 20);
             eBull1 = new Rectangle(372, 49, 10, 20);
@@ -148,6 +152,7 @@ namespace Galaga
             enemys.Add(new Enemy(spaceFly, spaceFly1));
             enemys.Add(new Enemy(new Rectangle(50, 54, 35, 35), butterfly1));
             enemys.Add(new Enemy(birdy, birdy1));
+            enemys.Add(new Enemy(boss, boss1));
             move = 3;
             
             //life and score

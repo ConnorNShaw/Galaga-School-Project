@@ -396,8 +396,19 @@ namespace Galaga
         {
 
             Random ran = new Random();
-            int r = ran.Next(0, enemys.Count);
+
+            //for (int i = 0; i < enemys.Count; i++)
+            //    if (ran.Next(0, 
+            //        enemyShots.Add(new Rectangle(enemys[i].pos.X + 12, enemys[i].pos.Y, 20, 30));
+
+            int r = ran.Next(0, enemys.Count());
+
+            if (efireTime % 40 == 0)
+            {
                 enemyShots.Add(new Rectangle(enemys[r].pos.X + 12, enemys[r].pos.Y, 20, 30));
+            }
+
+                
             
         }
 

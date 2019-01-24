@@ -262,7 +262,7 @@ namespace Galaga
                 this.Exit();
 
             if(!(shotsfired == 0))
-            shotratio = shotshit / shotsfired;
+            shotratio = (shotshit / shotsfired) * 100;
 
             // TODO: Add your update logic here
             //shoots with space bar
@@ -346,7 +346,7 @@ namespace Galaga
                     spriteBatch.DrawString(font, "Results!", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2), Color.Red);
                     spriteBatch.DrawString(font, "Shots Fired: " + shotsfired, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 25), Color.Red);
                     spriteBatch.DrawString(font, "Shots Hit: " + shotshit, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 50), Color.Red);
-                    spriteBatch.DrawString(font, "Hit or Miss ratio: " + shotratio, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 75), Color.Red);
+                    spriteBatch.DrawString(font, "Hit or Miss ratio: " + shotratio + "%", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 75), Color.Red);
                 }
                 
             }

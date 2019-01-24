@@ -26,6 +26,7 @@ namespace Galaga
         KeyboardState old;
 
         int timer;
+        int sec;
 
         //sounds
         SoundEffect Theme;
@@ -90,6 +91,7 @@ namespace Galaga
         int highScore;
         int score;
         Boolean gameover;
+        Boolean gameovertimer = false;
 
         //Results
         int shotsfired = 0;
@@ -258,6 +260,10 @@ namespace Galaga
 
             // TODO: Add your update logic here
             //shoots with space bar
+            if (gameovertimer == true)
+            {
+                timer++;
+            }
             if (gameover == false)
             {
                 if (kb.IsKeyDown(Keys.Space))
@@ -323,7 +329,20 @@ namespace Galaga
             if (life > -1)
                 spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
             else
+            {
                 spriteBatch.DrawString(font, "GAME OVER", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2), Color.Turquoise);
+                gameovertimer = true;
+                if (timer >= 2)
+                {
+                    spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                    spriteBatch.DrawString(font, "Results!", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2), Color.Red);
+                    spriteBatch.DrawString(font, "Shots Fired: " + shotsfired, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 25), Color.Red);
+                    spriteBatch.DrawString(font, "Shots Hit: " + shotshit, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 50), Color.Red);
+                    spriteBatch.DrawString(font, "Hit or Miss ratio: ", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 75), Color.Red);
+                }
+                
+            }
+
             //spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
 
             spriteBatch.DrawString(font, "1UP", new Vector2(20, 10), Color.Red);
@@ -377,8 +396,11 @@ namespace Galaga
         public void enemyShoot()
         {
             efireTime++;
-            if (efireTime % (180 / enemys.Count) == 0)
-                eshoot();
+            if (enemys.Count != 0)
+            {
+                if (efireTime % 10 == 0)
+                    eshoot();
+            }
             for (int i = 0; i < enemyShots.Count; i++)
                 enemyShots[i] = new Rectangle(enemyShots[i].X, enemyShots[i].Y + 7, enemyShots[i].Width, enemyShots[i].Height);
         }

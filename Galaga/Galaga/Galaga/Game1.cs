@@ -288,7 +288,6 @@ namespace Galaga
                 handleCollissions();
                 shipMovement(kb);
                 
-                //enemyGen();
                 if (life <= -1)
                 {
                     gameover = true;
@@ -468,11 +467,13 @@ namespace Galaga
                     move *= -1;
                 }
             }
-            Rectangle holder = enemys[enemys.Count - 1].pos;
-            enemys[enemys.Count - 1].pos.Y++;
-            if (enemys[enemys.Count - 1].pos.Y > GraphicsDevice.Viewport.Height)
+            if (enemys.Count != 0)
             {
-                enemys.Remove(enemys[enemys.Count - 1]);
+                enemys[enemys.Count - 1].pos.Y++;
+                if (enemys[enemys.Count - 1].pos.Y > GraphicsDevice.Viewport.Height)
+                {
+                    enemys.Remove(enemys[enemys.Count - 1]);
+                }
             }
         }
     }

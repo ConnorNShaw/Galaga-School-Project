@@ -36,7 +36,7 @@ namespace Galaga
                 value = 100; 
             if (spritePos.Y == 101)
             {
-                value = 200;
+                value = 150;
                 health = 2;
             }
         }

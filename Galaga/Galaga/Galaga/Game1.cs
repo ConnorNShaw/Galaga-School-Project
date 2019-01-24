@@ -96,7 +96,8 @@ namespace Galaga
         //Results
         int shotsfired = 0;
         int shotshit = 0;
-        
+        double shotratio;
+
 
         public Game1()
         {
@@ -211,6 +212,8 @@ namespace Galaga
             gameover = false;
             font = this.Content.Load<SpriteFont>("SpriteFont1");
 
+            
+
             base.Initialize();
         }
 
@@ -258,6 +261,9 @@ namespace Galaga
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kb.IsKeyDown(Keys.Escape))
                 this.Exit();
 
+            if(!(shotsfired == 0))
+            shotratio = shotshit / shotsfired;
+
             // TODO: Add your update logic here
             //shoots with space bar
             if (gameovertimer == true)
@@ -270,6 +276,7 @@ namespace Galaga
                 {
                     if (fireTime % 10 == 0)
                     {
+                        shotsfired++;
                         playerShots.Add(new Rectangle(ship.X + 12, ship.Y + 5, 20, 30));
                         FiringSound.Play();
                     }
@@ -300,8 +307,8 @@ namespace Galaga
         }
 
         //shot ratio
-        
 
+        
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -315,6 +322,7 @@ namespace Galaga
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+            
 
             if (gameover == false)
             {
@@ -338,7 +346,7 @@ namespace Galaga
                     spriteBatch.DrawString(font, "Results!", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2), Color.Red);
                     spriteBatch.DrawString(font, "Shots Fired: " + shotsfired, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 25), Color.Red);
                     spriteBatch.DrawString(font, "Shots Hit: " + shotshit, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 50), Color.Red);
-                    spriteBatch.DrawString(font, "Hit or Miss ratio: ", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 75), Color.Red);
+                    spriteBatch.DrawString(font, "Hit or Miss ratio: " + shotratio, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 75), Color.Red);
                 }
                 
             }
@@ -413,12 +421,13 @@ namespace Galaga
                 {
                     if (playerShots[i].Intersects(enemys[k].pos))
                     {
-                        
+                        shotshit++;
                         playerShots.Remove(playerShots[i]);
                         enemys[k].health--;
                         enemys[k].checkBoss();
                         if (enemys[k].health == 0)
                         {
+                            KillEnemySound.Play();
                             score += enemys[k].value;
                             enemys.Remove(enemys[k]);
                             break;

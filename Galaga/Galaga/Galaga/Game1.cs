@@ -61,7 +61,7 @@ namespace Galaga
 
         //sprite location on sprite sheet
         Rectangle spaceFly1;
-        Rectangle butterfly1;
+        Rectangle butterboi1;
         Rectangle birdy1;
         Rectangle boss1;
 
@@ -140,7 +140,7 @@ namespace Galaga
 
             //on sprite sheet
             spaceFly1 = new Rectangle(158, 174, 20, 20);
-            butterfly1 = new Rectangle(158, 152, 20, 20);
+            butterboi1 = new Rectangle(158, 152, 20, 20);
             birdy1 = new Rectangle(158, 200, 20, 20);
             boss1 = new Rectangle(158, 101, 20, 20);
 
@@ -189,11 +189,11 @@ namespace Galaga
             }
             for (int i = 0; i < 9; i++)
             {
-                enemys.Add(new Enemy(new Rectangle(30 + (i * 35), 95, 35, 35), butterfly1));
+                enemys.Add(new Enemy(new Rectangle(30 + (i * 35), 95, 35, 35), butterboi1));
             }
             for (int i = 0; i < 9; i++)
             {
-                enemys.Add(new Enemy(new Rectangle(30 + (i * 35), 125, 35, 35), butterfly1));
+                enemys.Add(new Enemy(new Rectangle(30 + (i * 35), 125, 35, 35), butterboi1));
             }
             for (int i = 0; i < 10; i++)
             {
@@ -397,19 +397,14 @@ namespace Galaga
 
             Random ran = new Random();
 
-            //for (int i = 0; i < enemys.Count; i++)
-            //    if (ran.Next(0, 
-            //        enemyShots.Add(new Rectangle(enemys[i].pos.X + 12, enemys[i].pos.Y, 20, 30));
-
             int r = ran.Next(0, enemys.Count());
 
-            if (efireTime % 40 == 0)
-            {
-                enemyShots.Add(new Rectangle(enemys[r].pos.X + 12, enemys[r].pos.Y, 20, 30));
-            }
 
-                
-            
+            enemyShots.Add(new Rectangle(enemys[r].pos.X + 12, enemys[r].pos.Y, 20, 30));
+
+            //for(int r = 0; r < enemys.Count(); r++)
+            //    enemyShots.Add(new Rectangle(enemys[r].pos.X + 12, enemys[r].pos.Y, 20, 30));
+
         }
 
         public void enemyShoot()
@@ -417,7 +412,7 @@ namespace Galaga
             efireTime++;
             if (enemys.Count != 0)
             {
-                if (efireTime % 10 == 0)
+                if (efireTime % 40 == 0)
                     eshoot();
             }
             for (int i = 0; i < enemyShots.Count; i++)

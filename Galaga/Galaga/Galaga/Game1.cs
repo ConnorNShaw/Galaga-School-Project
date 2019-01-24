@@ -75,6 +75,8 @@ namespace Galaga
         Rectangle enemyExplosion1, enemyExplosion2, enemyExplosion3, enemyExplosion4, enemyExplosion5;
         List<Rectangle> playerExplosion;
         Rectangle playerExplosion1, playerExplosion2, playerExplosion3, playerExplosion4;
+
+        Rectangle level1;
         
         //Booleans determine which explosion to draw
         bool explodePlayer;
@@ -96,6 +98,9 @@ namespace Galaga
         //Results
         int shotsfired = 0;
         int shotshit = 0;
+
+        //levels
+        int level = 1;
         double shotratio;
 
 
@@ -183,6 +188,7 @@ namespace Galaga
             //enemys.Add(new Enemy(new Rectangle(25, 95, 35, 35), butterfly1));
             //enemys.Add(new Enemy(new Rectangle(5, 50, 35, 35), boss1));
 
+            //making enemies on screen
             for (int i = 0; i < 5; i++)
             {
                 enemys.Add(new Enemy(new Rectangle(60 + (i * 35), 50, 35, 35), boss1));
@@ -212,8 +218,8 @@ namespace Galaga
             gameover = false;
             font = this.Content.Load<SpriteFont>("SpriteFont1");
 
-            
-
+            //levels
+            level1 = new Rectangle(372, 286, 20, 20);
             base.Initialize();
         }
 
@@ -288,7 +294,6 @@ namespace Galaga
                 handleCollissions();
                 shipMovement(kb);
                 
-                //enemyGen();
                 if (life <= -1)
                 {
                     gameover = true;
@@ -340,7 +345,7 @@ namespace Galaga
             {
                 spriteBatch.DrawString(font, "GAME OVER", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2), Color.Turquoise);
                 gameovertimer = true;
-                if (timer >= 2)
+                if (timer >= 100)
                 {
                     spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
                     spriteBatch.DrawString(font, "Results!", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2), Color.Red);
@@ -348,11 +353,8 @@ namespace Galaga
                     spriteBatch.DrawString(font, "Shots Hit: " + shotshit, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 50), Color.Red);
                     spriteBatch.DrawString(font, "Hit or Miss ratio: " + shotratio + "%", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 + 75), Color.Red);
                 }
-                
             }
-
             //spriteBatch.Draw(galagaSpriteSheet, ship, new Rectangle(181, 53, 20, 20), Color.White);
-
             spriteBatch.DrawString(font, "1UP", new Vector2(20, 10), Color.Red);
             spriteBatch.DrawString(font, "HIGH SCORE", new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 10), Color.Red);
             spriteBatch.DrawString(font, "" + score, new Vector2(20, 25), Color.White);
@@ -360,23 +362,25 @@ namespace Galaga
 
             for (int i = 0; i < life; i++)
             {
-                if ((score == 20000 || score % 70000 == 0) && score != 0)
+                if ((score == 20000 || score % 70000 == 0) && score != 0 && score != 1000000)
                 {
                     life++;
                 }
                 spriteBatch.Draw(galagaSpriteSheet, new Rectangle(0 + (i * 35), GraphicsDevice.Viewport.Height - ship.Height, 35, 35), new Rectangle(181, 53, 20, 20), Color.White);
             }
+            for (int i = 0; i < level; i++)
+            {
+                spriteBatch.Draw(galagaSpriteSheet, new Rectangle(GraphicsDevice.Viewport.Width - level1.Width - (i * 10), GraphicsDevice.Viewport.Height - level1.Height - 10, 35, 35), level1, Color.White);
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
-    
 
     public void shoot()
     {
         for (int i = playerShots.Count - 1; i >= 0; i--)
         {
             playerShots[i] = new Rectangle(playerShots[i].X, playerShots[i].Y - 20, playerShots[i].Width, playerShots[i].Height);
-             
         }
     }
 
@@ -450,6 +454,15 @@ namespace Galaga
                     explodePlayer = true;
                 }
             }
+            for (int i = enemys.Count - 1; i >= 0; i--)
+            {
+                if (ship.Intersects(enemys[i].pos))
+                {
+                    life--;
+                    enemys.Remove(enemys[i]);
+                    break;
+                }
+            }
         }
 
         public void enemyMovement()
@@ -462,24 +475,14 @@ namespace Galaga
                     move *= -1;
                 }
             }
+            if (enemys.Count != 0)
+            {
+                enemys[enemys.Count - 1].pos.Y++;
+                if (enemys[enemys.Count - 1].pos.Y > GraphicsDevice.Viewport.Height)
+                {
+                    enemys.Remove(enemys[enemys.Count - 1]);
+                }
+            }
         }
-
-        //public void enemyGen()
-        //{
-        //    if (enemys.Count < 10)
-        //    {
-        //        int r = rando.Next(0, 3);
-        //        int sY;
-        //        if (r == 0)
-        //            sY = 174;
-        //        else if (r == 1)
-        //            sY = 152;
-        //        else if (r == 2)
-        //            sY = 200;
-        //        else
-        //            sY = 174;
-        //        enemys.Add(new Enemy(new Rectangle(rando.Next(100, 670), rando.Next(50, 150), 35, 35), new Rectangle(158, sY, 20, 20)));
-        //    }
-        //}
     }
 }

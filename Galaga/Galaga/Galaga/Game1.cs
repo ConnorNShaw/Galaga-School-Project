@@ -52,6 +52,9 @@ namespace Galaga
         Rectangle spaceFly;
         Rectangle birdy;
         Rectangle boss;
+
+        Rectangle succ;
+
         Rectangle playBullet; //player's bullet
         Rectangle enBullet; //enemy bullet
         Rectangle explosion;
@@ -61,6 +64,10 @@ namespace Galaga
         Rectangle butterfly1;
         Rectangle birdy1;
         Rectangle boss1;
+
+        Rectangle succ1;
+        Rectangle succ2;
+        Rectangle succ3;
 
         Rectangle pBull1;
         Rectangle eBull1;
@@ -113,7 +120,6 @@ namespace Galaga
 
             timer = 0;
 
-
             playerShots = new List<Rectangle>();
             fireTime = 0;
             enemyShots = new List<Rectangle>();
@@ -136,6 +142,10 @@ namespace Galaga
             butterfly1 = new Rectangle(158, 152, 20, 20);
             birdy1 = new Rectangle(158, 200, 20, 20);
             boss1 = new Rectangle(158, 101, 20, 20);
+
+            succ1 = new Rectangle(206, 100, 20, 20);
+            succ2 = new Rectangle(262, 100, 20, 20);
+            succ3 = new Rectangle(318, 100, 20, 20);
 
             pBull1 = new Rectangle(364, 193, 10, 20);
             eBull1 = new Rectangle(372, 49, 10, 20);

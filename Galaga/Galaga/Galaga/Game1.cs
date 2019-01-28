@@ -362,7 +362,7 @@ namespace Galaga
             }
             if (lifeControl != 0)
             {
-                if (score >= (70000 * lifeControl) && score != 1000000 && score != 0)
+                if (score >= (70000 * lifeControl) && score != 1000000 && score != 0 && lifeControl != 0)
                 {
                     life++;
                     lifeControl++;

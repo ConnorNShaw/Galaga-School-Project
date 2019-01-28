@@ -355,19 +355,19 @@ namespace Galaga
             spriteBatch.DrawString(font, "" + score, new Vector2(20, 25), Color.White);
             spriteBatch.DrawString(font, "" + highScore, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 25), Color.White);
 
-            //if (score >= 20000 && lifeControl == 0)
-            //{
-            //    life++;
-            //    lifeControl++;
-            //}
-            //if (lifeControl != 0)
-            //{
-            //    if (score % (70000 * lifeControl) >= 0 && score != 1000000 && score != 0)
-            //    {
-            //        life++;
-            //        lifeControl++;
-            //    }
-            //}
+            if (score >= 20000 && lifeControl == 0)
+            {
+                life++;
+                lifeControl++;
+            }
+            if (lifeControl != 0)
+            {
+                if (score >= (70000 * lifeControl) && score != 1000000 && score != 0)
+                {
+                    life++;
+                    lifeControl++;
+                }
+            }
 
             for (int i = 0; i < life; i++)
             {

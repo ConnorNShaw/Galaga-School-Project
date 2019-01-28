@@ -29,7 +29,7 @@ namespace Galaga
             move = 3;
             alive = true;
             if (spritePos.Y == 174)
-                value = 10000;
+                value = 100;
             if (spritePos.Y == 152)
                 value = 50;
             if (spritePos.Y == 200)

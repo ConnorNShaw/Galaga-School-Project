@@ -218,6 +218,7 @@ namespace Galaga
             gameover = false;
             font = this.Content.Load<SpriteFont>("SpriteFont1");
 
+           
             //levels
             level1 = new Rectangle(372, 286, 20, 20);
             base.Initialize();

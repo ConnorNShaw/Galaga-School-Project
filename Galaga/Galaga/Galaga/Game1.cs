@@ -27,6 +27,7 @@ namespace Galaga
 
         int timer;
         int sec;
+        int lifeControl;
 
         //sounds
         SoundEffect Theme;
@@ -153,8 +154,8 @@ namespace Galaga
             succ2 = new Rectangle(262, 100, 20, 20);
             succ3 = new Rectangle(318, 100, 20, 20);
 
-            pBull1 = new Rectangle(364, 193, 10, 20);
-            eBull1 = new Rectangle(372, 49, 10, 20);
+            pBull1 = new Rectangle(364, 193, 7, 20);
+            eBull1 = new Rectangle(372, 49, 7, 20);
 
             enemyExplosion = new List<Rectangle>();
             enemyExplosion1 = new Rectangle(208, 187, 20, 20);
@@ -181,6 +182,7 @@ namespace Galaga
             explodePlayer = false;
             explodeEnemy = false;
             explosionTracker = 0;
+            lifeControl = 0;
 
             //enemy list
             //enemys.Add(new Enemy(birdy, birdy1));
@@ -322,7 +324,7 @@ namespace Galaga
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.White);
             KeyboardState kb = Keyboard.GetState();
 
             // TODO: Add your drawing code here
@@ -361,12 +363,23 @@ namespace Galaga
             spriteBatch.DrawString(font, "" + score, new Vector2(20, 25), Color.White);
             spriteBatch.DrawString(font, "" + highScore, new Vector2(GraphicsDevice.Viewport.Width / 2 - 50, 25), Color.White);
 
-            for (int i = 0; i < life; i++)
+            if (score >= 20000 && lifeControl == 0)
             {
-                if ((score == 20000 || score % 70000 == 0) && score != 0 && score != 1000000)
+                life++;
+                lifeControl++;
+            }
+            if (lifeControl != 0)
+            {
+                if (score >= (70000 * lifeControl) && score != 1000000 && score != 0 && lifeControl != 0)
                 {
                     life++;
+                    lifeControl++;
                 }
+            }
+
+            for (int i = 0; i < life; i++)
+            {
+                
                 spriteBatch.Draw(galagaSpriteSheet, new Rectangle(0 + (i * 35), GraphicsDevice.Viewport.Height - ship.Height, 35, 35), new Rectangle(181, 53, 20, 20), Color.White);
             }
             for (int i = 0; i < level; i++)
@@ -401,13 +414,10 @@ namespace Galaga
         {
 
             Random ran = new Random();
-
             int r = ran.Next(0, enemys.Count());
-
-
             enemyShots.Add(new Rectangle(enemys[r].pos.X + 12, enemys[r].pos.Y, 20, 30));
 
-            //for(int r = 0; r < enemys.Count(); r++)
+            //for (int r = 0; r < enemys.Count(); r++)
             //    enemyShots.Add(new Rectangle(enemys[r].pos.X + 12, enemys[r].pos.Y, 20, 30));
 
         }
@@ -441,8 +451,9 @@ namespace Galaga
                             KillEnemySound.Play();
                             score += enemys[k].value;
                             enemys.Remove(enemys[k]);
-                            break;
+                            
                         }
+                        break;
                     }
                 }
             }
